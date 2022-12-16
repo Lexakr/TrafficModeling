@@ -17,11 +17,10 @@ namespace TrafficModeling.Presenters
             this.model = model;
         }
 
-        public string Run() // Запуск процесса моделирования
+        public void Run() // Запуск процесса моделирования
         {
             //SaveData();
-            model.RunSimulation(); //Обновление модели
-            return model.simStats.TotalCars.Last().ToString(); //Передача обновлённой модели
+            model.Run(); //Обновление модели
         }
 
         public void SaveData()

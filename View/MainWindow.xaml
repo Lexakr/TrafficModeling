@@ -9,28 +9,115 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <TabControl Name="Tab_Model">
-            <TabItem Header="Параметры Модели">
-                <Grid Background="#FFE5E5E5" Height="405">
-                    <Image Margin="0,10,10,10" Source="/road.jpeg" HorizontalAlignment="Right" Width="327"/>
-                    <Button Content="Старт" Margin="24,0,0,32" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75" Click="Button_Click"/>
-                    <Button Content="Сброс" Margin="117,0,0,32" HorizontalAlignment="Left" Width="75" Height="40" VerticalAlignment="Bottom"/>
-                    <TextBox HorizontalAlignment="Left" Margin="83,39,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Статистика">
-                <Grid Background="#FFE5E5E5" Margin="0,0,0,58">
-                    <lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Right" >
-                        <lvc:CartesianChart.AxisY>
-                            <lvc:Axis Title="Sales" LabelFormatter="{Binding YFormatter}"></lvc:Axis>
-                        </lvc:CartesianChart.AxisY>
-                        <lvc:CartesianChart.AxisX>
-                            <lvc:Axis Title="Month" Labels="{Binding Labels}"></lvc:Axis>
-                        </lvc:CartesianChart.AxisX>
-                    </lvc:CartesianChart>
-                </Grid>
-            </TabItem>
-            <TabItem Header="+">
+            <TabItem Header="Model Parameters">
+                <Grid Background="#FFE5E5E5">
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top">
+                        <StackPanel Orientation="Vertical"
+                                    Margin="0,0,40,0">
+                            <StackPanel Orientation="Vertical">
+                                <Label Content="Speed Distribution Parameters:"
+                                       Margin="5,5,5,5"/>
+                                <StackPanel Orientation="Horizontal"
+                                    Margin="5,5,5,5">
+                                    <Label Content="Civil cars Speed:"/>
+                                    <TextBox x:Name="CivCarSpeed"
+                                             Text=""
+                                             Width="40"/>
+                                    <Label Content="Dispersion:"/>
+                                    <TextBox x:Name="CivCarStdDev"
+                                             Text=""
+                                             Width="40"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal"
+                                            Margin="5,5,5,5">
+                                    <Label Content="Civil cars Speed:"/>
+                                    <TextBox x:Name="GovCarSpeed"
+                                             Text=""
+                                             Width="40"/>
+                                    <Label Content="Dispersion:"/>
+                                    <TextBox x:Name="GovCarStdDev"
+                                             Text=""
+                                             Width="40"/>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical">
+                                <Label Content="Cars Generator Parameters:"
+                                       Margin="5,5,5,5"/>
+                                <StackPanel Orientation="Horizontal"
+                                    Margin="5,5,5,5">
+                                    <Label Content="Road 1 average car arrival time:"
+                                       Width="175"/>
+                                    <TextBox x:Name="InputStream1ExpValue"
+                                     Text=""
+                                     Width="40"
+                                     />
+                                    <Label Content="Dispersion:"/>
+                                    <TextBox x:Name="InputStream1StdDev"
+                                     Text=""
+                                     Width="40"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal"
+                                    Margin="5,5,5,5">
+                                    <Label Content="Road 2 average car arrival time:"
+                                       Width="175"/>
+                                    <TextBox x:Name="InputStream2ExpValue"
+                                     Text=""
+                                     Width="40"
+                                     />
+                                    <Label Content="Dispersion:"/>
+                                    <TextBox x:Name="InputStream2StdDev"
+                                     Text=""
+                                     Width="40"/>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal"
+                                            Margin="5,5,5,5">
+                                    <Label Content="Traffic Light green light time"/>
+                                    <TextBox x:Name="TrafficLightTime"
+                                             Width="40"/>
+                                    <Label Content="red light time:"/>
+                                    <TextBox x:Name="TrafficLightDelay"
+                                             Width="40"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal"
+                                            Margin="5,5,5,5">
+                                    <Label Content="Simulation Time (in hours):"/>
+                                    <TextBox x:Name="SimulationTime"
+                                             Width="40"/>
+                                    <Label Content="road length:"/>
+                                    <TextBox x:Name="Length"
+                                             Width="40"/>
+                                </StackPanel>
 
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Старт"
+                                        Margin="24,0,0,32"
+                                        Height="40"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalAlignment="Left"
+                                        Width="75"
+                                        Click="ButtonStart_Click"/>
+                                <Button Content="Сброс"
+                                        Margin="117,0,0,32"
+                                        HorizontalAlignment="Left"
+                                        Width="75" Height="40"
+                                        VerticalAlignment="Bottom"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <Image
+                           Source="/road.jpeg"
+                           Width="320" Height="320"/>
+                    </StackPanel>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Statistics">
+                <Grid Background="#FFE5E5E5" Margin="0,0,0,58">
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>

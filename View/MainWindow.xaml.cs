@@ -1,21 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using TrafficModeling.Model;
 using TrafficModeling.Presenters;
-using LiveCharts.Wpf;
-using LiveCharts;
-using System.Reflection.Emit;
 using TrafficModeling.View;
 
 namespace TrafficModeling
@@ -27,10 +14,7 @@ namespace TrafficModeling
     {
         private Simulation model;
         private Presenter presenter;
-
-        public SeriesCollection SeriesCollection { get; set; } // add clear collection
-        public string[] Labels { get; set; }
-        public Func<double, string> YFormatter { get; set; }
+        private List<TabItem> tabItems;
 
         public MainWindow()
         {
@@ -38,66 +22,70 @@ namespace TrafficModeling
             model = new();
             presenter = new(model);
 
-            // CHARTS
-            SeriesCollection = new SeriesCollection
-            {
-                new LineSeries
-                {
-                    Title = "Series 1",
-                    Values = new ChartValues<double> { 4, 6, 5, 2 ,4 }
-                },
-                new LineSeries
-                {
-                    Title = "Series 2",
-                    Values = new ChartValues<double> { 6, 7, 3, 4 ,6 },
-                    PointGeometry = null
-                },
-                new LineSeries
-                {
-                    Title = "Series 3",
-                    Values = new ChartValues<double> { 4,2,7,2,7 },
-                    PointGeometry = DefaultGeometries.Square,
-                    PointGeometrySize = 15
-                }
-            };
-
-            Labels = new[] { "Jan", "Feb", "Mar", "Apr", "May" };
-            YFormatter = value => value.ToString("C");
-
-            //modifying the series collection will animate and update the chart
-            SeriesCollection.Add(new LineSeries
-            {
-                Title = "Series 4",
-                Values = new ChartValues<double> { 5, 3, 2, 4 },
-                LineSmoothness = 0, //0: straight lines, 1: really smooth lines
-                PointGeometry = Geometry.Parse("m 25 70.36218 20 -28 -20 22 -8 -6 z"),
-                PointGeometrySize = 50,
-                PointForeground = Brushes.Gray
-            });
-
-            //modifying any series values will also animate and update the chart
-            SeriesCollection[3].Values.Add(5d);
-
-            DataContext = this;
+            CivCarSpeed.Text = Properties.Settings.Default.civCarV.ToString();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ButtonStart_Click(object sender, RoutedEventArgs e)
         {
+            if (!SettingsValidation())
+                return;
+
             this.IsEnabled = false;
-            MessageBox.Show(presenter.Run());
+
+            model.simStats.Clear();
+            presenter.Run();
+
             this.IsEnabled = true;
 
-            TabItem tabitem = new TabItem();
-            tabitem.Header = "Tab 3";
-            Frame tabFrame = new Frame();
-            Page1 page1 = new Page1(model.simStats.TotalCars);
-            tabFrame.Content = page1;
-            tabitem.Content = tabFrame;
-            Tab_Model.Items.Add(tabitem);
 
 
+            tabItems = new()
+            {
+                new TabItem()
+                {
+                    Header = "Graph_1",
+
+                    Content = new Frame()
+                    {
+                        Content = new Page1(model.simStats.CarsInQueDynamics)
+                    }
+                }
+            };
+            /*
+                        Frame tabFrame = new Frame();
+                        Page1 page1 = new Page1(model.simStats.CarsInQueDynamics);
+                        tabFrame.Content = page1;
+                        tabitem.Content = tabFrame;
+                        Tab_Model.Items.Add(tabitem);*/
+
+            for (int i = 1; i < Tab_Model.Items.Count; i++)
+            {
+                Tab_Model.Items.RemoveAt(i);
+            }
+
+            foreach (TabItem item in tabItems)
+            {
+                Tab_Model.Items.Add(item);
+            }
         }
-        
+
+        private bool SettingsValidation()
+        {
+            if (double.TryParse(CivCarSpeed.Text, out var civCarSpeed))
+                Properties.Settings.Default.civCarV = civCarSpeed;
+            else
+            {
+                MessageBox.Show("validation er"); 
+                return false;
+            }
+            if (double.TryParse(CivCarStdDev.Text, out var result))
+                Properties.Settings.Default.civCarV = result;
+            else
+                MessageBox.Show("validation er");
+
+            Properties.Settings.Default.Save();
+            return true;
+        }
 
     }
 }

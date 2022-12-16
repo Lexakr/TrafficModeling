@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows;
 
 namespace TrafficModeling.View
 {
@@ -15,39 +16,47 @@ namespace TrafficModeling.View
     {
         public Page1VM(List<int> points)
         {
-            var values = new int[points.Count];
+            var values = new int[points.Count / 60];
+            //values[0] = 0;
             var t = 0;
-            for (var i = 0; i < points.Count; i++)
+            var tmp = 0;
+            int sum = 0;
+            for(int i = 0; i < points.Count; i++)
             {
-                t = points[i];
-                values[i] = t;
+                tmp++;
+                sum += points[i];
+                if (tmp == 60)
+                {
+                    values[t] = sum;
+                    sum = 0;
+                    t++;
+                    tmp = 0;
+                }
             }
+            t = 0;
+
+
+            /*            var values = new int[points.Count];
+                        var t = 0;
+                        for (var i = 0; i < points.Count; i++)
+                        {
+                            t = points[i];
+                            values[i] = t;
+                        }*/
 
 
 
-            SeriesCollection = new ISeries[] { new LineSeries<int> { Values = values } };
+
+
+            SeriesCollection = new ISeries[]
+            { new LineSeries<int>
+                {
+                    GeometrySize = 0,
+                    Values = values,
+                }
+            };
         }
-
-        public Page1VM()
-        {
-
-            var values = new int[100];
-            var r = new Random();
-            var t = 0;
-
-            for (var i = 0; i < 100; i++)
-            {
-                t += r.Next(-90, 100);
-                values[i] = t;
-            }
-
-            SeriesCollection = new ISeries[] { new LineSeries<int> { Values = values } };
-        }
-
+        
         public ISeries[] SeriesCollection { get; set; }
-        public void foo()
-        {
-            
-        }
     }
 }

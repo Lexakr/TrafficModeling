@@ -17,20 +17,35 @@ namespace TrafficModeling.Model
 
         public Statistics()
         {
-            TotalCars = new()
-            {
-                0
-            };
+            TotalCars = new();
+            TotalCarsByHour = new();
+            AverageServeTime = new();
+            AverageWaitingTime = new();
+            CarsInQueDynamics = new();
         }
 
         public void Add(ServeStream stream, int time)
         {
-            if(stream.ServedCars != null)
-                TotalCars.Add(stream.ServedCars.Count);
+            /*            if(stream.ServedCars != null)
+                            TotalCars.Add(stream.ServedCars.Count);*/
+            if (stream.InStream1.InputQueue.Count != 0 || stream.InStream2.InputQueue.Count != 0)
+            {
+                CarsInQueDynamics.Add(stream.InStream1.InputQueue.Count + stream.InStream2.InputQueue.Count);
+            }
+            else CarsInQueDynamics.Add(0);
             if(time % 36000 == 0)
             {
 
             }
+        }
+
+        public void Clear()
+        {
+            TotalCars.Clear();
+            TotalCarsByHour.Clear();
+            AverageWaitingTime.Clear();
+            AverageServeTime.Clear();
+            CarsInQueDynamics.Clear();
         }
 
         public Statistics GetByMinuts(Statistics stat)
