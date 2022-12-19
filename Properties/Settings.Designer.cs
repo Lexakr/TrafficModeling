@@ -146,12 +146,12 @@ namespace TrafficModeling.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int time {
+        public int timer {
             get {
-                return ((int)(this["time"]));
+                return ((int)(this["timer"]));
             }
             set {
-                this["time"] = value;
+                this["timer"] = value;
             }
         }
         

@@ -2,6 +2,7 @@
 {
     internal interface ITime
     {
+        public int CurrentTime { get; } 
         // Присоединяет наблюдателя к издателю.
         void Attach(ITimeObserver observer);
 

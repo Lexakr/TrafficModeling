@@ -2,7 +2,7 @@
 {
     internal class CivilCar : Car
     {
-        public CivilCar(string Name, int Speed, string Origin) : base(Name, Speed, Origin)
+        public CivilCar(string Name, int Speed, string Origin, int arrivalTime) : base(Name, Speed, Origin, arrivalTime)
         {
 
         }

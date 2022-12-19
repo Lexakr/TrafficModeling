@@ -7,46 +7,45 @@ namespace TrafficModeling.Model
     /// </summary>
     internal class Simulation
     {
-        private int simulationTime;
-        private Time time;
+        private Timer timer;
         private ServeStream serveStream;
-        public Statistics simStats;
+        public Statistics SimStats { get; set; }
+
+        public int SimulationTime { get; set; }
+        public Timer Timer { get => timer; }
 
         /// <summary>
-        /// 
+        /// Конструктор по умолчанию.
         /// </summary>
-        /// <param name="simulationTime"></param>
-        /// <param name="u1"></param>
-        /// <param name="stdDev1"></param>
-        /// <param name="stdDev2"></param>
-        /// <param name="u2"></param>
-        /// <param name="trafficLightTime"></param>
-        /// <param name="delay"></param>
-        /// <param name="length"></param>
-        public Simulation(int simulationTime = 432000, double u1 = 10, double stdDev1 = 2, double u2 = 8,
-            double stdDev2 = 3, int trafficLightTime = 34, int delay = 90, int length = 500)
+        /// <param name="simulationTime">Время симуляции</param>
+        /// <param name="inputStream1ExpValue">Среднее время появления машин в 1 потоке</param>
+        /// <param name="inputStream1Dispersion">Дисперсия времени 1 потока</param>
+        /// <param name="inputStream2ExpValue">Среднее время появления машин во 2 потоке</param>
+        /// <param name="inputStream2Dispersion">Дисперсия времени 1 потока</param>
+        /// <param name="lightTime">Длительность зеленой фазы светофора</param>
+        /// <param name="delayTime">Длительность красной фазы светофора</param>
+        /// <param name="roadLength">Длина участка симуляции</param>
+        /// <param name="civilExpValue">Средняя скорость обычных машин</param>
+        /// <param name="civilDispersion">Дисперсия скорости обычных машин</param>
+        /// <param name="govExpValue">Средняя скорость машин спецслужб</param>
+        /// <param name="govDispersion">Дисперсия скорости машин спецслужб</param>
+        public Simulation(int simulationTime = 432000, double inputStream1ExpValue = 10, double inputStream1Dispersion = 1, double inputStream2ExpValue = 8,
+            double inputStream2Dispersion = 1, int lightTime = 30, int delayTime = 90, int roadLength = 500, double civilExpValue = 65,
+            double civilDispersion = 1, double govExpValue = 80, double govDispersion = 1)
         {
-            this.simulationTime = simulationTime; // 12 часов
-            time = new();
-            serveStream = new(u1, stdDev1, u2, stdDev2, trafficLightTime, delay, length); // lambda1, lambda 2, light_time, stream_length, delay_time
-            simStats = new();
+            SimulationTime = simulationTime;
+            timer = new();
+            //serveStream = new(u1, stdDev1, u2, stdDev2, trafficLightTime, delay, length); // lambda1, lambda 2, light_time, stream_length, delay_time
+            serveStream = new(
+                new InputStream( new CarGenerator(civilExpValue, civilDispersion, govExpValue, govDispersion), inputStream1ExpValue, inputStream1Dispersion, "Input Stream 1"),
+                new InputStream( new CarGenerator(civilExpValue, civilDispersion, govExpValue, govDispersion), inputStream2ExpValue, inputStream2Dispersion, "Input Stream 2"),
+                lightTime, delayTime, roadLength);
+            SimStats = new();
             // подписываем обсерверов
-            time.Attach(serveStream);
-            time.Attach(serveStream.InStream1);
-            time.Attach(serveStream.InStream2);
+            timer.Attach(serveStream);
+            timer.Attach(serveStream.InStream1);
+            timer.Attach(serveStream.InStream2);
         }
-
-/*        public Simulation(int simulationTime, double u1, double stdDev1, double u2,
-            double stdDev2, int trafficLightTime, int delay, int length)
-        {
-            this.simulationTime = simulationTime;
-            time = new();
-            serveStream = new(u1, stdDev1, u2, stdDev2, trafficLightTime, delay, length);
-            // подписываем обсерверов
-            time.Attach(serveStream);
-            time.Attach(serveStream.InStream1);
-            time.Attach(serveStream.InStream2);
-        }*/
 
         /// <summary>
         /// 
@@ -54,12 +53,14 @@ namespace TrafficModeling.Model
         public void Run()
         {
             // симуляция заданного количества времени
-            for (int i = 1; i < simulationTime; i++)
+            for (int i = 0; i < SimulationTime; i++)
             {
-                if(i % 600 == 0)
-                    simStats.Add(serveStream, time.CurrentTime);
-                time.Increment();
+                if (i % 600 == 0)
+                    SimStats.AddCarsInQueToStat(serveStream);
+                timer.Increment();
             }
+            // Записать статистику по автомобилям
+            SimStats.Process(serveStream.ServedCars, timer.CurrentTime);
         }
     }
 }

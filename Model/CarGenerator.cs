@@ -5,28 +5,50 @@ namespace TrafficModeling.Model
 {
     internal class CarGenerator
     {
-        private static Bernoulli b = new(0.99); // 1% шанс появления машины спецслужб
+        private static Bernoulli bernoulli = new(0.99); // 1% шанс появления машины спецслужб
         private static int civCarCounter = 0;
         private static int govCarCounter = 0;
 
-        // TODO: временный конструктор для отладки, удалить при финальной версии
-        public Car Generate(string origin)
-        {
-            int c = b.Sample();
+        /// <summary>
+        /// Мат ожидание скорости для Civil Cars.
+        /// </summary>
+        public double CivilExpValue { get; set; }
+        /// <summary>
+        /// Дисперсия скорости для Civil Cars.
+        /// </summary>
+        public double CivilDispersion { get; set; }
+        /// <summary>
+        /// Мат ожидание скорости для Goverment Cars.
+        /// </summary>
+        public double GovExpValue { get; set; }
+        /// <summary>
+        /// Дисперсия скорости для Goverment Cars.
+        /// </summary>
+        public double GovDispersion { get; set; }
 
-            if (c == 1)
+        public CarGenerator(double civilExpValue, double civilDispersion, double govExpValue, double govDispersion)
+        {
+            CivilExpValue = civilExpValue;
+            CivilDispersion = civilDispersion;
+            GovExpValue = govExpValue;
+            GovDispersion = govDispersion;
+        }
+
+        public Car Generate(string origin, ITime time)
+        {
+            int result = bernoulli.Sample();
+
+            if (result == 1)
             {
                 civCarCounter++;
-                return new CivilCar("Civil_Car_" + civCarCounter, (int)Randoms.GetNormalNum(75, 1), origin);
+                return new CivilCar("Civil_Car_" + civCarCounter, (int)Randoms.GetNormalNum(CivilExpValue, CivilDispersion), origin, time.CurrentTime);
             }
             else
             {
                 govCarCounter++;
-                return new CivilCar("Goverment_Car_" + govCarCounter, (int)Randoms.GetExpNum(85, 100, 1), origin);
+                return new GovCar("Goverment_Car_" + govCarCounter, (int)Randoms.GetNormalNum(GovExpValue, GovDispersion), origin, time.CurrentTime);
             }
         }
-
-        // TODO: Конструктор с параметрами, заданными юзером (мин-макс скорость, параметры генерации и тд)
     }
 }
 

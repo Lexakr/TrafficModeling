@@ -4,9 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TrafficModeling"
-        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" 
+        Width="1080"
+        Height="390">
+
     <Grid>
         <TabControl Name="Tab_Model">
             <TabItem Header="Model Parameters">
@@ -23,7 +26,6 @@
                                     Margin="5,5,5,5">
                                     <Label Content="Civil cars Speed:"/>
                                     <TextBox x:Name="CivCarSpeed"
-                                             Text=""
                                              Width="40"/>
                                     <Label Content="Dispersion:"/>
                                     <TextBox x:Name="CivCarStdDev"
@@ -32,7 +34,7 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal"
                                             Margin="5,5,5,5">
-                                    <Label Content="Civil cars Speed:"/>
+                                    <Label Content="Goverment cars Speed:"/>
                                     <TextBox x:Name="GovCarSpeed"
                                              Text=""
                                              Width="40"/>
@@ -54,7 +56,7 @@
                                      Width="40"
                                      />
                                     <Label Content="Dispersion:"/>
-                                    <TextBox x:Name="InputStream1StdDev"
+                                    <TextBox x:Name="InputStream1Dispersion"
                                      Text=""
                                      Width="40"/>
                                 </StackPanel>
@@ -67,7 +69,7 @@
                                      Width="40"
                                      />
                                     <Label Content="Dispersion:"/>
-                                    <TextBox x:Name="InputStream2StdDev"
+                                    <TextBox x:Name="InputStream2Dispersion"
                                      Text=""
                                      Width="40"/>
                                 </StackPanel>
@@ -93,30 +95,92 @@
                                 </StackPanel>
 
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <Button Content="Старт"
-                                        Margin="24,0,0,32"
+                            <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center">
+                                <Button Content="Start Simulation"
                                         Height="40"
-                                        VerticalAlignment="Bottom"
-                                        HorizontalAlignment="Left"
-                                        Width="75"
+                                        Width="120"
                                         Click="ButtonStart_Click"/>
-                                <Button Content="Сброс"
-                                        Margin="117,0,0,32"
-                                        HorizontalAlignment="Left"
-                                        Width="75" Height="40"
-                                        VerticalAlignment="Bottom"/>
                             </StackPanel>
                         </StackPanel>
-                        <Image
+                        <StackPanel Orientation="Vertical" >
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Simulation lasted:"/>
+                                <TextBlock Text="0" 
+                                           x:Name="simulationTime"
+                                           Margin="0,5"/>
+                                <Label Content="hours."/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Section passed by"/>
+                                <TextBlock Text="0"
+                                           x:Name="totalCars"
+                                           Margin="0,5"/>
+                                <Label Content="cars. Of these, civil:"/>
+                                <TextBlock Text="0"
+                                           x:Name="totalCivCars"
+                                           Margin="0,5"/>
+                                <Label Content="goverment:"/>
+                                <TextBlock Text="0"
+                                           x:Name="totalGovCars"
+                                           Margin="0,5"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="On both sides: 1:"
+                                       Margin="20,0,0,0"/>
+                                <TextBlock Text="0"
+                                           x:Name="totalCarsInStream1"
+                                           Margin="0,5"/>
+                                <Label Content="2: "/>
+                                <TextBlock Text="0"
+                                           x:Name="totalCarsInStream2"
+                                           Margin="0,5"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Average waiting time in queue: 1:"/>
+                                <TextBlock Text="0"
+                                           x:Name="avgWaitTimeInStream1"
+                                           Margin="0,5"/>
+                                <Label Content="2: "/>
+                                <TextBlock Text="0"
+                                           x:Name="avgWaitTimeInStream2"
+                                           Margin="0,5"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Average travel time: stream[1]:"/>
+                                <TextBlock Text="0"
+                                           x:Name="avgServeTimeInStream1"
+                                           Margin="0,5"/>
+                                <Label Content="stream[2]:"/>
+                                <TextBlock Text="0"
+                                           x:Name="avgServeTimeInStream2"
+                                           Margin="0,5"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="The slowest car traveled the section in:"/>
+                                <TextBlock Text="0"
+                                           x:Name="maxServeTime"
+                                           Margin="0,5"/>
+                                <Label Content="seconds. The fastest in:"/>
+                                <TextBlock Text="0"
+                                           x:Name="minServeTime"
+                                           Margin="0,5"/>
+                                <Label Content="s"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Longest waiting in queue:"/>
+                                <TextBlock Text="0"
+                                           x:Name="maxWaitTime"
+                                           Margin="0,5"/>
+                                <Label Content="seconds."/>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel>
+                            <Image
                            Source="/road.jpeg"
                            Width="320" Height="320"/>
+                        </StackPanel>
                     </StackPanel>
-
-                </Grid>
-            </TabItem>
-            <TabItem Header="Statistics">
-                <Grid Background="#FFE5E5E5" Margin="0,0,0,58">
                 </Grid>
             </TabItem>
         </TabControl>

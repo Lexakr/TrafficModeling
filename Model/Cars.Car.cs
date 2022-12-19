@@ -11,9 +11,11 @@ namespace TrafficModeling.Model
         public int TravelTimeLeft { get; set; }
         public int TravelTime { set; get; }
         public int WaitingTime { get; set; } // ожидание перед светофором
+        public int ArrivalTime { get; set; } // прибытие в очередь
+        public int DepartureTime { get; set; } // покидание очереди
         public bool Priority { get; set; }
 
-        public Car(string Name, int Speed, string Origin)
+        public Car(string Name, int Speed, string Origin, int arrivalTime)
         {
             this.Name = Name;
             this.Speed = Speed;
@@ -21,6 +23,7 @@ namespace TrafficModeling.Model
             TravelTime = 0;
             WaitingTime = 0;
             Priority = false;
+            ArrivalTime = arrivalTime;
             this.Origin = Origin;
         }
     }

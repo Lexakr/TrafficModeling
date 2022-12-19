@@ -19,10 +19,10 @@
         public TrafficLight(int lightTime, int delay, bool IsGreen)
         {
             LightTime = lightTime;
-            Delay = delay + lightTime; // задержка = время зеленой фазы + время общей красной фазы
+            Delay = 2 * delay + lightTime; // задержка = время зеленой фазы + время общей красной фазы
             this.IsGreen = IsGreen;
             if (!IsGreen) // фаза "посередине"
-                Counter = (delay - lightTime) / 2;
+                Counter = delay;
             else 
                 Counter = 0;
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Reflection;
+using static SkiaSharp.HarfBuzz.SKShaper;
 
 namespace TrafficModeling.Model
 {
@@ -27,12 +28,12 @@ namespace TrafficModeling.Model
         public TrafficLight TLight1 { get => tLight1; }
         public TrafficLight TLight2 { get => tLight2; }
 
-        public ServeStream(double u1, double stdDev1, double u2, double stdDev2, int trafficLightTime, int delay, int length)
+        public ServeStream(InputStream inputStream1, InputStream inputStream2, int trafficLightTime, int delay, int length)
         {
             this.length = length; // длина участка под светофорами в метрах
             ServedCars = new();
-            inputStream1 = new(u1, stdDev1, "Input Stream 1");
-            inputStream2 = new(u2, stdDev2, "Input Stream 2");
+            this.inputStream1 = inputStream1;
+            this.inputStream2 = inputStream2;
             tLight1 = new(trafficLightTime * 10, delay * 10, true);
             tLight2 = new(trafficLightTime * 10, delay * 10, false);
 
@@ -45,7 +46,7 @@ namespace TrafficModeling.Model
 
         public void Update(ITime time)
         {
-            Serve();     // обслуживание заявок
+            Serve(time.CurrentTime);     // обслуживание заявок
             ServeLights();
             AddRequest(); // прием заявок на обслуживание
         }
@@ -53,7 +54,7 @@ namespace TrafficModeling.Model
         /// <summary>
         /// Обработка заявок в очереди обслуживания.
         /// </summary>
-        public void Serve()
+        public void Serve(int time)
         {
             if (serveQueue.Count == 0) 
                 return; // Нечего обрабатывать
@@ -64,7 +65,11 @@ namespace TrafficModeling.Model
                 c.TravelTimeLeft--;
                 // машина достигла конца участка, эта заявка обслужена
                 if (c.TravelTimeLeft == 0)
+                {
+                    c.DepartureTime = time; // отметка о времени покидания участка
                     flag = true;
+                }
+                    
             }
             if(flag)
                 ServedCars.Add(serveQueue.Dequeue());
@@ -82,13 +87,15 @@ namespace TrafficModeling.Model
 
                 if(addCounter == nextAddRequestTime)
                 {
-                    if ((tLight1.Counter == 0 || tLight2.Counter == 0) && serveQueue.Count != 0)
-                        throw new Exception("Ex");
+                    if ((tLight1.Counter == 0 || tLight2.Counter == 0) && serveQueue.Count > 0)
+                        throw new Exception("Ex"); // TODO: обработка столкновения, вывод в UI
 
                     nextAddRequestTime = NextAddRequestTime(); // новое время до генерации заявки
                     addCounter = 0; // обнуление счетчика
-                    if (tLight1.IsGreen) AddRequestFrom(inputStream1);
-                    else if (tLight2.IsGreen) AddRequestFrom(inputStream2);
+                    if (tLight1.IsGreen) 
+                        AddRequestFrom(inputStream1);
+                    else if (tLight2.IsGreen) 
+                        AddRequestFrom(inputStream2);
                 }
             }
         }
@@ -113,10 +120,12 @@ namespace TrafficModeling.Model
 
         public int NextAddRequestTime()
         {
-            var res = (int)(Randoms.GetNormalNum(1.5, 0.1) * 10);
-            if (res < 0) 
-                res *= -1;
-            return res;
+            var result = (int)(Randoms.GetNormalNum(1.8, 0.3) * 10);
+            if (result < 0) 
+                result *= -1;
+            if (result == 0)
+                result = 1;
+            return result;
         }
 
         public void ServeLights()

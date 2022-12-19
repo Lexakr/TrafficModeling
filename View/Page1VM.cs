@@ -1,62 +1,83 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows;
+using LiveCharts.Helpers;
+using LiveChartsCore.SkiaSharpView.Painting;
+using SkiaSharp;
+using LiveChartsCore.Measure;
 
 namespace TrafficModeling.View
 {
     [ObservableObject]
     public partial class Page1VM
     {
-        public Page1VM(List<int> points)
+        private static readonly SKColor s_red = new(229, 57, 53);
+        public Page1VM(List<int> points1, List<int> points2)
         {
-            var values = new int[points.Count / 60];
-            //values[0] = 0;
-            var t = 0;
-            var tmp = 0;
-            int sum = 0;
-            for(int i = 0; i < points.Count; i++)
-            {
-                tmp++;
-                sum += points[i];
-                if (tmp == 60)
-                {
-                    values[t] = sum;
-                    sum = 0;
-                    t++;
-                    tmp = 0;
-                }
-            }
-            t = 0;
-
-
-            /*            var values = new int[points.Count];
-                        var t = 0;
-                        for (var i = 0; i < points.Count; i++)
-                        {
-                            t = points[i];
-                            values[i] = t;
-                        }*/
-
-
-
-
 
             SeriesCollection = new ISeries[]
-            { new LineSeries<int>
+            {
+                new LineSeries<int>
                 {
+                    Name = "Queue 1 cars",
                     GeometrySize = 0,
-                    Values = values,
+                    Fill = null,
+                    Values = points1.AsChartValues(),
+                    LineSmoothness = 0.2,
+                },
+                new LineSeries<int>
+                {
+                    Name = "Queue 2 cars",
+                    GeometrySize = 0,
+                    GeometryStroke = new SolidColorPaint(s_red, 2),
+                    Fill = null,
+                    Values = points2.AsChartValues(),
+                    LineSmoothness = 0.2,
+                }
+            };
+
+            YAxes = new Axis[]
+            {
+                new Axis
+                {
+                    Name = "Cars in queues dynamics",
                 }
             };
         }
-        
+
+
         public ISeries[] SeriesCollection { get; set; }
+
+        public Axis[] XAxes { get; set; } =
+        {
+            new Axis
+            {
+                Name = "Time in minuts",
+                NameTextSize = 20
+            }
+        };
+        public Axis[] YAxes { get; set; }
+
+        [RelayCommand]
+        public void ToggleSeries0()
+        {
+            SeriesCollection[0].IsVisible = !SeriesCollection[0].IsVisible;
+
+        }
+
+        [RelayCommand]
+        public void ToggleSeries1()
+        {
+            SeriesCollection[1].IsVisible = !SeriesCollection[1].IsVisible;
+        }
     }
 }

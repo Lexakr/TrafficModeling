@@ -17,9 +17,9 @@ namespace TrafficModeling.Model
         public string Name { get; set; }
         public Queue<Car> InputQueue { get => inputQue; set => inputQue = value; }
 
-        public InputStream(double u, double stdDev, string streamName)
+        public InputStream(CarGenerator carGen, double u, double stdDev, string streamName)
         {
-            carGen = new();
+            this.carGen = carGen;
             inputQue = new();
             this.u = u;
             this.stdDev = stdDev;
@@ -51,12 +51,12 @@ namespace TrafficModeling.Model
             counter++;
             if (counter == carGenTime)
             {
-                var car = carGen.Generate(this.Name);
-                if (car.Priority) inputQue.Append(car); // Вне очереди
+                var car = carGen.Generate(this.Name, time);
+                if (car.Priority) 
+                    inputQue.Append(car); // Вне очереди
                 else inputQue.Enqueue(car); // создаем авто и помещаем в очередь
                 counter = 0;
-                carGenTime = NextCarGenTime(); // время до следующей генерации
-                // TODO: Логгирование: Log.Add(string); Log.Clear(); singleton; MVP?
+                carGenTime = NextCarGenTime(); // время до следующей генерации\
             }
         }
     }

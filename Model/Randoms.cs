@@ -52,7 +52,7 @@ namespace TrafficModeling.Model
         public static int GetPoissonNum(double lambda)
         {
             // Алгоритм Дональда Кнута, 1969.
-            if (lambda > 30) return -1; // TODO: Неэффективно для больших лямбд (программное ограничение, вынести в UI)
+            if (lambda > 30) return -1; // Неэффективно для лямбда больше 30
             Random r = new();
             double p = 1.0, L = Math.Exp(-lambda);
             int k = 0;

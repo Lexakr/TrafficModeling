@@ -8,22 +8,26 @@ using TrafficModeling.Model;
 
 namespace TrafficModeling.Presenters
 {
+    /// <summary>
+    /// Presetner class from MVP pattern.
+    /// </summary>
     internal class Presenter
     {
-        private Simulation model; //Связь с моделью
+        private Simulation _simulation; // Model
+        private MainWindow _mainWindow; // View 
 
-        public Presenter(Simulation model)
+        public Presenter(Simulation simulation, MainWindow mainWindow)
         {
-            this.model = model;
+            _simulation = simulation;
+            _mainWindow = mainWindow;
         }
 
-        public void Run() // Запуск процесса моделирования
+        public void RunSimulation() // Запуск процесса моделирования
         {
-            //SaveData();
-            model.Run(); //Обновление модели
+            _simulation.Run(); //Обновление модели
         }
 
-        public void SaveData()
+        public void ValidateUserInput()
         {
 
         }
