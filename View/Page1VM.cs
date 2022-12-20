@@ -24,7 +24,7 @@ namespace TrafficModeling.View
                     Fill = null,
                     Values = points1.AsChartValues(),
                     LineSmoothness = 0.2,
-                    Stroke = new SolidColorPaint(SKColors.Blue, 2)
+                    Stroke = new SolidColorPaint(SKColors.Blue, 1)
                 },
                 new LineSeries<int>
                 {
@@ -33,7 +33,7 @@ namespace TrafficModeling.View
                     Fill = null,
                     Values = points2.AsChartValues(),
                     LineSmoothness = 0.2,
-                    Stroke = new SolidColorPaint(SKColors.Red, 2)
+                    Stroke = new SolidColorPaint(SKColors.Red, 1)
                 }
             };
 

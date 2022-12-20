@@ -103,8 +103,8 @@ namespace TrafficModeling.Model
             if (stream.InputQueue.Count == 0)
                 return;
 
-            var car = stream.InputQueue.Last(); // (int)speed * 1000 / 60 / 60 / 10
-            stream.InputQueue.RemoveAt(stream.InputQueue.Count - 1); 
+            var car = stream.InputQueue.First(); // (int)speed * 1000 / 60 / 60 / 10
+            stream.InputQueue.RemoveAt(0); 
 
             car.TravelTimeLeft = (int)((double)length / ((double)car.Speed / 36.0)); // задаем время проезда участка
 
@@ -113,6 +113,7 @@ namespace TrafficModeling.Model
                 car.TravelTimeLeft = serveQueue.Last().TravelTimeLeft + NextAddRequestTime();
 
             car.WaitingTime = time - car.ArrivalTime;
+
             car.TravelTime = car.TravelTimeLeft;
             serveQueue.Enqueue(car);
         }

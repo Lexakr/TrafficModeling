@@ -8,7 +8,9 @@
         mc:Ignorable="d"
         Title="MainWindow" 
         Width="1150"
-        Height="400">
+        Height="400"
+        MinWidth="1150"
+        MinHeight="400">
 
     <Grid>
         <TabControl Name="Tab_Model">
@@ -16,7 +18,8 @@
                 <Grid Background="#FFE5E5E5">
                     <StackPanel Orientation="Horizontal"
                                 HorizontalAlignment="Center"
-                                VerticalAlignment="Top">
+                                VerticalAlignment="Top"
+                                Margin="0,10">
                         <StackPanel Orientation="Vertical"
                                     Margin="0,0,20,0">
                             <GroupBox Header="Speed Distribution Parameters:">
@@ -49,7 +52,7 @@
                             <GroupBox Header="Cars Generator Parameters:">
                                 <StackPanel Orientation="Vertical">
                                     <StackPanel Orientation="Horizontal"
-                                        Margin="5,5,5,5">
+                                        Margin="5,5,5,0">
                                         <Label Content="Road 1 average car arrival time:"
                                            Width="175"/>
                                         <TextBox x:Name="InputStream1ExpValue"
@@ -62,7 +65,7 @@
                                                  Margin="0,5"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal"
-                                        Margin="5,5,5,5">
+                                        Margin="5,0,5,5">
                                         <Label Content="Road 2 average car arrival time:"
                                            Width="175"/>
                                         <TextBox x:Name="InputStream2ExpValue"
@@ -80,7 +83,7 @@
                             <GroupBox Header="Other:">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal"
-                                                Margin="5,5,5,5">
+                                                Margin="5,5,5,0">
                                         <Label Content="Traffic Light green light time"/>
                                         <TextBox x:Name="TrafficLightTime"
                                                  Width="30"
@@ -91,7 +94,7 @@
                                                  Margin="0,5"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal"
-                                                Margin="5,5,5,5">
+                                                Margin="5,0,5,5">
                                         <Label Content="Simulation Time (in hours):"/>
                                         <TextBox x:Name="SimulationTime"
                                                  Width="30"
@@ -122,7 +125,6 @@
                                         <TextBlock Text="0" 
                                                x:Name="simulationTime"
                                                Margin="0,5"/>
-                                        <Label Content="hours."/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Label Content="Section passed by"/>
@@ -150,11 +152,11 @@
                                                Margin="0,5"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <Label Content="Average waiting time in queue: 1:"/>
+                                        <Label Content="Average waiting time in queue[1]:"/>
                                         <TextBlock Text="0"
                                                x:Name="avgWaitTimeInStream1"
                                                Margin="0,5"/>
-                                        <Label Content="2: "/>
+                                        <Label Content="queue[2]: "/>
                                         <TextBlock Text="0"
                                                x:Name="avgWaitTimeInStream2"
                                                Margin="0,5"/>
@@ -171,21 +173,19 @@
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Label Content="The slowest car traveled the section in:"/>
-                                        <TextBlock Text="0"
+                                        <TextBlock Text="0s"
                                                x:Name="maxServeTime"
                                                Margin="0,5"/>
-                                        <Label Content="seconds. The fastest in:"/>
-                                        <TextBlock Text="0"
+                                        <Label Content=".The fastest in:"/>
+                                        <TextBlock Text="0s"
                                                x:Name="minServeTime"
                                                Margin="0,5"/>
-                                        <Label Content="s"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Label Content="Longest waiting in queue:"/>
                                         <TextBlock Text="0"
                                                x:Name="maxWaitTime"
                                                Margin="0,5"/>
-                                        <Label Content="seconds."/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Label Content="Cars queued by the end of the simulation (unserved):"/>

@@ -96,19 +96,19 @@ namespace TrafficModeling
         /// </summary>
         private void ShowStatistics()
         {
-            simulationTime.Text = (model.SimStats.SimulationTime / 36000).ToString();
+            simulationTime.Text = FormatTimeForView(model.SimStats.SimulationTime);
             totalCars.Text = model.SimStats.TotalCars.ToString();
             totalCivCars.Text = model.SimStats.TotalCivilCars.ToString();
             totalGovCars.Text = model.SimStats.TotalGovCars.ToString();
             totalCarsInStream1.Text = model.SimStats.TotalCarsInStream1.ToString();
             totalCarsInStream2.Text = model.SimStats.TotalCarsInStream2.ToString();
-            avgWaitTimeInStream1.Text = (model.SimStats.AvgWaitingTimeInStream1 / 10.0).ToString();
-            avgWaitTimeInStream2.Text = (model.SimStats.AvgWaitingTimeInStream2 / 10.0).ToString();
-            avgServeTimeInStream1.Text = (model.SimStats.AvgServeTimeInStream1 / 10.0).ToString();
-            avgServeTimeInStream2.Text = (model.SimStats.AvgServeTimeInStream2 / 10.0).ToString();
-            maxServeTime.Text = (model.SimStats.MaxTravelTime / 10.0).ToString();
-            minServeTime.Text = (model.SimStats.MinTravelTime / 10.0).ToString();
-            maxWaitTime.Text = (model.SimStats.MaxWaitingTime / 10.0).ToString();
+            avgWaitTimeInStream1.Text = FormatTimeForView(model.SimStats.AvgWaitingTimeInStream1);
+            avgWaitTimeInStream2.Text = FormatTimeForView(model.SimStats.AvgWaitingTimeInStream2);
+            avgServeTimeInStream1.Text = FormatTimeForView(model.SimStats.AvgServeTimeInStream1);
+            avgServeTimeInStream2.Text = FormatTimeForView(model.SimStats.AvgServeTimeInStream2);
+            maxServeTime.Text = FormatTimeForView(model.SimStats.MaxTravelTime);
+            minServeTime.Text = FormatTimeForView(model.SimStats.MinTravelTime);
+            maxWaitTime.Text = FormatTimeForView(model.SimStats.MaxWaitingTime);
             carsInQueue.Text = model.SimStats.CarsInQueue.ToString();
         }
 
@@ -216,6 +216,27 @@ namespace TrafficModeling
 
             Properties.Settings.Default.Save();
             return true;
+        }
+
+        /// <summary>
+        /// Форматирование децисекунд в секунды, минуты и часы для корректного вывода на экран.
+        /// </summary>
+        /// <param name="decisecond">Время в децисекундах.</param>
+        /// <returns></returns>
+        private string FormatTimeForView(int decisecond)
+        {
+            if (decisecond < 600 )
+            {
+                return Math.Round((decisecond / 10.0), 2).ToString() + "s";
+            }
+            else if (decisecond < 36000)
+            {
+                return Math.Round((decisecond / 600.0), 2).ToString() + "m";
+            }
+            else
+            {
+                return Math.Round((decisecond / 36000.0), 2).ToString() + "h";
+            }
         }
     }
 }

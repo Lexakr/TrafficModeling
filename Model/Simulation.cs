@@ -27,9 +27,9 @@
         /// <param name="civilDispersion">Дисперсия скорости обычных машин</param>
         /// <param name="govExpValue">Средняя скорость машин спецслужб</param>
         /// <param name="govDispersion">Дисперсия скорости машин спецслужб</param>
-        public Simulation(int simulationTime = 432000, double inputStream1ExpValue = 10, double inputStream1Dispersion = 1, double inputStream2ExpValue = 8,
-            double inputStream2Dispersion = 1, int lightTime = 30, int delayTime = 90, int roadLength = 500, double civilExpValue = 65,
-            double civilDispersion = 1, double govExpValue = 80, double govDispersion = 1)
+        public Simulation(int simulationTime = 0, double inputStream1ExpValue = 0, double inputStream1Dispersion = 0, double inputStream2ExpValue = 0,
+            double inputStream2Dispersion = 0, int lightTime = 0, int delayTime = 0, int roadLength = 0, double civilExpValue = 0,
+            double civilDispersion = 0, double govExpValue = 0, double govDispersion = 0)
         {
             SimulationTime = simulationTime;
             timer = new();

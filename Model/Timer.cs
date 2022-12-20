@@ -6,10 +6,8 @@ namespace TrafficModeling.Model
     {
         private int currentTime = 0;
         private List<ITimeObserver> _observers = new();
-        public int CurrentTime { get { return currentTime; } }
 
-        public delegate void TimeHandler(Timer sender, int e);
-        public event TimeHandler? Notifyer;
+        public int CurrentTime { get { return currentTime; } }
 
         public void Attach(ITimeObserver observer) => _observers.Add(observer);
         public void Detach(ITimeObserver observer) => _observers.Remove(observer);
@@ -25,7 +23,6 @@ namespace TrafficModeling.Model
         {
             currentTime++;
             Notify();
-            Notifyer?.Invoke(this, CurrentTime);   // 2.Вызов события
         }
     }
 }
