@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Metrics;
 using System.Linq;
-using System.Reflection;
-using static SkiaSharp.HarfBuzz.SKShaper;
 
 namespace TrafficModeling.Model
 {
@@ -48,7 +45,7 @@ namespace TrafficModeling.Model
         {
             Serve(time.CurrentTime);     // обслуживание заявок
             ServeLights();
-            AddRequest(); // прием заявок на обслуживание
+            AddRequest(time.CurrentTime); // прием заявок на обслуживание
         }
 
         /// <summary>
@@ -56,11 +53,11 @@ namespace TrafficModeling.Model
         /// </summary>
         public void Serve(int time)
         {
-            if (serveQueue.Count == 0) 
+            if (serveQueue.Count == 0)
                 return; // Нечего обрабатывать
             var flag = false;
             // Проходим все машины на участке дороги, декрементируя каждый тик оставшееся время до конца участка
-            foreach(Car c in serveQueue)
+            foreach (Car c in serveQueue)
             {
                 c.TravelTimeLeft--;
                 // машина достигла конца участка, эта заявка обслужена
@@ -69,44 +66,45 @@ namespace TrafficModeling.Model
                     c.DepartureTime = time; // отметка о времени покидания участка
                     flag = true;
                 }
-                    
+
             }
-            if(flag)
+            if (flag)
                 ServedCars.Add(serveQueue.Dequeue());
         }
 
         /// <summary>
         /// Добавление заявок в очередь обслуживание.
         /// </summary>
-        public void AddRequest()
-        { 
+        public void AddRequest(int time)
+        {
             // Заявки добавляются только когда один из светофоров зеленый
-            if(tLight1.IsGreen || tLight2.IsGreen)
+            if (tLight1.IsGreen || tLight2.IsGreen)
             {
                 addCounter++;
 
-                if(addCounter == nextAddRequestTime)
+                if (addCounter == nextAddRequestTime)
                 {
                     if ((tLight1.Counter == 0 || tLight2.Counter == 0) && serveQueue.Count > 0)
-                        throw new Exception("Ex"); // TODO: обработка столкновения, вывод в UI
+                        throw new Exception("A collision has occurred! Try setting a longer traffic light delay. " + this.serveQueue.Last().TravelTime);
 
                     nextAddRequestTime = NextAddRequestTime(); // новое время до генерации заявки
                     addCounter = 0; // обнуление счетчика
-                    if (tLight1.IsGreen) 
-                        AddRequestFrom(inputStream1);
-                    else if (tLight2.IsGreen) 
-                        AddRequestFrom(inputStream2);
+                    if (tLight1.IsGreen)
+                        AddRequestFrom(inputStream1, time);
+                    else if (tLight2.IsGreen)
+                        AddRequestFrom(inputStream2, time);
                 }
             }
         }
 
-        public void AddRequestFrom(InputStream stream)
+        public void AddRequestFrom(InputStream stream, int time)
         {
             // Не обслуживаем, если в очереди нет заявок
-            if (stream.InputQueue.Count == 0) 
+            if (stream.InputQueue.Count == 0)
                 return;
 
-            var car = stream.InputQueue.Dequeue(); // (int)speed * 1000 / 60 / 60 / 10
+            var car = stream.InputQueue.Last(); // (int)speed * 1000 / 60 / 60 / 10
+            stream.InputQueue.RemoveAt(stream.InputQueue.Count - 1); 
 
             car.TravelTimeLeft = (int)((double)length / ((double)car.Speed / 36.0)); // задаем время проезда участка
 
@@ -114,6 +112,7 @@ namespace TrafficModeling.Model
             if (serveQueue.Count != 0 && serveQueue.Last().TravelTimeLeft >= car.TravelTimeLeft)
                 car.TravelTimeLeft = serveQueue.Last().TravelTimeLeft + NextAddRequestTime();
 
+            car.WaitingTime = time - car.ArrivalTime;
             car.TravelTime = car.TravelTimeLeft;
             serveQueue.Enqueue(car);
         }
@@ -121,7 +120,7 @@ namespace TrafficModeling.Model
         public int NextAddRequestTime()
         {
             var result = (int)(Randoms.GetNormalNum(1.8, 0.3) * 10);
-            if (result < 0) 
+            if (result < 0)
                 result *= -1;
             if (result == 0)
                 result = 1;

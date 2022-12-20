@@ -1,18 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using TrafficModeling.Model;
-using TrafficModeling.Presenters;
 using TrafficModeling.View;
-using System.Windows.Input;
-using System.Text.RegularExpressions;
-using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore;
-using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Windows.Threading;
-using System.Threading;
 
 namespace TrafficModeling
 {
@@ -22,7 +14,6 @@ namespace TrafficModeling
     public partial class MainWindow : Window
     {
         private Simulation model;
-        private Presenter presenter;
         private List<TabItem> tabItems;
 
         public MainWindow()
@@ -48,31 +39,40 @@ namespace TrafficModeling
 
         private void ButtonStart_Click(object sender, RoutedEventArgs e)
         {
-            this.IsEnabled = false;
+            
 
             if (!SettingsValidation())
                 return;
+
+            
 
             model = new(Properties.Settings.Default.timer * 36000, Properties.Settings.Default.road1time, Properties.Settings.Default.road1disp,
                 Properties.Settings.Default.road2time, Properties.Settings.Default.road2disp, Properties.Settings.Default.greenlight,
                 Properties.Settings.Default.redlight, Properties.Settings.Default.length, Properties.Settings.Default.civCarV,
                 Properties.Settings.Default.civCarDev, Properties.Settings.Default.govCarV, Properties.Settings.Default.govCarDev);
-            presenter = new(model);
 
             DataContext = model;
 
             model.SimStats.ClearAllStats();
 
-            presenter.RunSimulation();
+            try
+            {
+                model.Run();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Simulation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            
 
-            this.IsEnabled = true;
+            ShowStatistics();
 
             tabItems = new()
             {
                 new TabItem()
                 {
-                    Header = "Graph_1",
-
+                    Header = "Chart",
                     Content = new Frame()
                     {
                         Content = new Page1(model.SimStats.CarsInQue1Dynamics, model.SimStats.CarsInQue2Dynamics)
@@ -80,7 +80,7 @@ namespace TrafficModeling
                 }
             };
 
-            for (int i = 2; i < Tab_Model.Items.Count; i++)
+            for (int i = 1; i < Tab_Model.Items.Count; i++)
             {
                 Tab_Model.Items.RemoveAt(i);
             }
@@ -89,6 +89,27 @@ namespace TrafficModeling
             {
                 Tab_Model.Items.Add(item);
             }
+        }
+
+        /// <summary>
+        /// Отображение статистики из модели в представление вместе с конвертацией в нужные единицы измерения.
+        /// </summary>
+        private void ShowStatistics()
+        {
+            simulationTime.Text = (model.SimStats.SimulationTime / 36000).ToString();
+            totalCars.Text = model.SimStats.TotalCars.ToString();
+            totalCivCars.Text = model.SimStats.TotalCivilCars.ToString();
+            totalGovCars.Text = model.SimStats.TotalGovCars.ToString();
+            totalCarsInStream1.Text = model.SimStats.TotalCarsInStream1.ToString();
+            totalCarsInStream2.Text = model.SimStats.TotalCarsInStream2.ToString();
+            avgWaitTimeInStream1.Text = (model.SimStats.AvgWaitingTimeInStream1 / 10.0).ToString();
+            avgWaitTimeInStream2.Text = (model.SimStats.AvgWaitingTimeInStream2 / 10.0).ToString();
+            avgServeTimeInStream1.Text = (model.SimStats.AvgServeTimeInStream1 / 10.0).ToString();
+            avgServeTimeInStream2.Text = (model.SimStats.AvgServeTimeInStream2 / 10.0).ToString();
+            maxServeTime.Text = (model.SimStats.MaxTravelTime / 10.0).ToString();
+            minServeTime.Text = (model.SimStats.MinTravelTime / 10.0).ToString();
+            maxWaitTime.Text = (model.SimStats.MaxWaitingTime / 10.0).ToString();
+            carsInQueue.Text = model.SimStats.CarsInQueue.ToString();
         }
 
         /// <summary>
@@ -102,14 +123,14 @@ namespace TrafficModeling
                 Properties.Settings.Default.civCarV = civCarSpeed;
             else
             {
-                MessageBox.Show("Enter civil cars speed from 40 to 90", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error); 
+                MessageBox.Show("Enter civil cars speed from 40 to 90", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
-            if (double.TryParse(CivCarStdDev.Text, out var civCarStdDev) && civCarStdDev >= 0.1 && civCarStdDev <= 4)
+            if (double.TryParse(CivCarStdDev.Text, out var civCarStdDev) && civCarStdDev >= 0.1 && civCarStdDev <= 10)
                 Properties.Settings.Default.civCarDev = civCarStdDev;
             else
             {
-                MessageBox.Show("Enter civil cars variance from 0.1 to 4", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Enter civil cars variance from 0.1 to 10", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
 
@@ -121,75 +142,75 @@ namespace TrafficModeling
                 MessageBox.Show("Enter goverment cars speed from 60 to 110", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
-            if (double.TryParse(GovCarStdDev.Text, out var govCarStdDevd) && govCarStdDevd >= 0.1 && govCarStdDevd <= 4)
+            if (double.TryParse(GovCarStdDev.Text, out var govCarStdDevd) && govCarStdDevd >= 0.1 && govCarStdDevd <= 10)
                 Properties.Settings.Default.govCarDev = govCarStdDevd;
             else
             {
-                MessageBox.Show("Enter goverment cars variance from 0.1 to 4", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Enter goverment cars variance from 0.1 to 10", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
 
             // First Input Stream car generator parameters
-            if (double.TryParse(InputStream1ExpValue.Text, out var inputStream1ExpValue) && inputStream1ExpValue >= 2 && inputStream1ExpValue <= 120)
+            if (double.TryParse(InputStream1ExpValue.Text, out var inputStream1ExpValue) && inputStream1ExpValue >= 2 && inputStream1ExpValue <= 60)
                 Properties.Settings.Default.road1time = inputStream1ExpValue;
             else
             {
-                MessageBox.Show("Enter 1st road timer from 2 to 120", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Enter 1st road timer from 2 to 60", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
-            if (double.TryParse(InputStream1Dispersion.Text, out var inputStream1StdDev) && inputStream1StdDev >= 0.1 && inputStream1StdDev <= 4)
+            if (double.TryParse(InputStream1Dispersion.Text, out var inputStream1StdDev) && inputStream1StdDev >= 0.1 && inputStream1StdDev <= 10)
                 Properties.Settings.Default.road1disp = inputStream1StdDev;
             else
             {
-                MessageBox.Show("Enter 1st road timer dispersion from 0.1 to 4", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Enter 1st road timer dispersion from 0.1 to 10", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
 
             // Second Input Stream car generator parameters
-            if (double.TryParse(InputStream2ExpValue.Text, out var inputStream2ExpValue) && inputStream2ExpValue >= 2 && inputStream2ExpValue <= 120)
+            if (double.TryParse(InputStream2ExpValue.Text, out var inputStream2ExpValue) && inputStream2ExpValue >= 2 && inputStream2ExpValue <= 60)
                 Properties.Settings.Default.road2time = inputStream2ExpValue;
             else
             {
-                MessageBox.Show("Enter 2nd road timer from 2 to 120", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Enter 2nd road timer from 2 to 60", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
-            if (double.TryParse(InputStream2Dispersion.Text, out var inputStream2StdDev) && inputStream2StdDev >= 0.1 && inputStream2StdDev <= 4)
+            if (double.TryParse(InputStream2Dispersion.Text, out var inputStream2StdDev) && inputStream2StdDev >= 0.1 && inputStream2StdDev <= 10)
                 Properties.Settings.Default.road2disp = inputStream2StdDev;
             else
             {
-                MessageBox.Show("Enter 2nd road timer dispersion from 0.1 to 4", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Enter 2nd road timer dispersion from 0.1 to 10", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
 
             // Traffic Lights parameters
-            if (int.TryParse(TrafficLightTime.Text, out var trafficLightTime) && trafficLightTime >= 10 && trafficLightTime <= 300)
+            if (int.TryParse(TrafficLightTime.Text, out var trafficLightTime) && trafficLightTime >= 5 && trafficLightTime <= 600)
                 Properties.Settings.Default.greenlight = trafficLightTime;
             else
             {
-                MessageBox.Show("Enter traffic light green timer from 10 to 300", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Enter traffic light green timer from 5 to 600", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
-            if (int.TryParse(TrafficLightDelay.Text, out var trafficLightDelay) && trafficLightDelay >= 30 && trafficLightDelay <= 600)
+            if (int.TryParse(TrafficLightDelay.Text, out var trafficLightDelay) && trafficLightDelay >= 5 && trafficLightDelay <= 600)
                 Properties.Settings.Default.redlight = trafficLightDelay;
             else
             {
-                MessageBox.Show("Enter traffic light delay from 30 to 600", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Enter traffic light delay from 5 to 600", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
 
             // Simulation parameters
-            if (int.TryParse(SimulationTime.Text, out var simulationTime) && simulationTime >= 1 && simulationTime <= 168)
+            if (int.TryParse(SimulationTime.Text, out var simulationTime) && simulationTime >= 1 && simulationTime <= 72)
                 Properties.Settings.Default.timer = simulationTime;
             else
             {
-                MessageBox.Show("Enter simulation timer from 1 to 168 hours", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Enter simulation timer from 1 to 72 hours", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
-            if (int.TryParse(Length.Text, out var length) && length >= 500 && length <= 5000)
+            if (int.TryParse(Length.Text, out var length) && length >= 100 && length <= 5000)
                 Properties.Settings.Default.length = length;
             else
             {
-                MessageBox.Show("Enter road length from 500 to 5000", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Enter road length from 100 to 5000", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
 

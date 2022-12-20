@@ -21,7 +21,7 @@ namespace TrafficModeling.Model
             var rand = new Random(); // Псевдослучайный ГЧ
             var exp_rate = Math.Exp(-lambda * a); // Параметр скорости (лямбда)
             return // Экспоненциальная СВ на (a, b), округленная до 0,1
-                Math.Round((-Math.Log(exp_rate - rand.NextDouble() * (exp_rate - Math.Exp(-lambda * b))) / lambda), 1); 
+                Math.Round((-Math.Log(exp_rate - rand.NextDouble() * (exp_rate - Math.Exp(-lambda * b))) / lambda), 1);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace TrafficModeling.Model
             double randStdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) *
                          Math.Sin(2.0 * Math.PI * u2); // нормальная СВ на (0,1)  
             return // нормальная СВ (мат.ожид, дисперсия), округленная до 0,1
-                Math.Round((mean + stdDev * randStdNormal), 1); 
+                Math.Round((mean + stdDev * randStdNormal), 1);
         }
 
         /// <summary>

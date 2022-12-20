@@ -1,26 +1,17 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows;
 using LiveCharts.Helpers;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;
-using LiveChartsCore.Measure;
+using System.Collections.Generic;
 
 namespace TrafficModeling.View
 {
     [ObservableObject]
     public partial class Page1VM
     {
-        private static readonly SKColor s_red = new(229, 57, 53);
         public Page1VM(List<int> points1, List<int> points2)
         {
 
@@ -33,15 +24,24 @@ namespace TrafficModeling.View
                     Fill = null,
                     Values = points1.AsChartValues(),
                     LineSmoothness = 0.2,
+                    Stroke = new SolidColorPaint(SKColors.Blue, 2)
                 },
                 new LineSeries<int>
                 {
                     Name = "Queue 2 cars",
                     GeometrySize = 0,
-                    GeometryStroke = new SolidColorPaint(s_red, 2),
                     Fill = null,
                     Values = points2.AsChartValues(),
                     LineSmoothness = 0.2,
+                    Stroke = new SolidColorPaint(SKColors.Red, 2)
+                }
+            };
+
+            XAxes = new Axis[]
+            {
+                new Axis
+                {
+                    Name = "Time in minuts",
                 }
             };
 
@@ -49,22 +49,14 @@ namespace TrafficModeling.View
             {
                 new Axis
                 {
-                    Name = "Cars in queues dynamics",
+                    Name = "Cars",
                 }
             };
         }
 
 
         public ISeries[] SeriesCollection { get; set; }
-
-        public Axis[] XAxes { get; set; } =
-        {
-            new Axis
-            {
-                Name = "Time in minuts",
-                NameTextSize = 20
-            }
-        };
+        public Axis[] XAxes { get; set; }
         public Axis[] YAxes { get; set; }
 
         [RelayCommand]

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TrafficModeling.Model
+﻿namespace TrafficModeling.Model
 {
     internal abstract class Car
     {

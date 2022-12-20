@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Animation;
 
 namespace TrafficModeling.Model
 {
@@ -26,6 +22,11 @@ namespace TrafficModeling.Model
         public int AvgServeTimeInStream2 { get; set; }
         public List<int> CarsInQue1Dynamics { get; set; }
         public List<int> CarsInQue2Dynamics { get; set; }
+
+        /// <summary>
+        /// Количество необслуженных машин в очереди к концу симуляции.
+        /// </summary>
+        public int CarsInQueue { get; set; }
 
         public Statistics()
         {
@@ -66,20 +67,20 @@ namespace TrafficModeling.Model
         }
 
         /// <summary>
-        /// Обработка статистики из списка обслуженных машин. Данные в коллекциях 
-        /// на выходе представлены почасовыми показателями.
+        /// Обработка статистики из списка обслуженных машин.
         /// </summary>
         /// <param name="servedCars">Коллекция обслуженных машин</param>
+        /// <param name="carsInQue">Коллекция необслуженных машин</param>
         /// <param name="simulationTime">Время симуляции</param>
-        public void Process(List<Car> servedCars, int simulationTime)
+        public void Process(List<Car> servedCars, int carsInQue, int simulationTime)
         {
-
             SimulationTime = simulationTime;
             TotalCars = servedCars.Count;
             TotalCivilCars = servedCars.Where(x => x is CivilCar).Count();
             TotalGovCars = servedCars.Where(x => x is GovCar).Count();
             MaxTravelTime = servedCars.Max(x => x.TravelTime);
             MinTravelTime = servedCars.Min(x => x.TravelTime);
+            MaxWaitingTime = servedCars.Max(x => x.WaitingTime);
             TotalCarsInStream1 = servedCars.Where(x => x.Origin == "Input Stream 1").Count();
             TotalCarsInStream2 = servedCars.Where(x => x.Origin == "Input Stream 2").Count();
             AvgWaitingTimeInStream1 = servedCars.Where(x => x.Origin == "Input Stream 1").Sum(x => x.WaitingTime) / TotalCarsInStream1;
@@ -87,32 +88,7 @@ namespace TrafficModeling.Model
             AvgServeTimeInStream1 = servedCars.Where(x => x.Origin == "Input Stream 1").Sum(x => x.TravelTime) / TotalCarsInStream1;
             AvgServeTimeInStream2 = servedCars.Where(x => x.Origin == "Input Stream 2").Sum(x => x.TravelTime) / TotalCarsInStream2;
 
-            //CarsInQue2Dynamics = ConvertMinutsToHours(CarsInQue2Dynamics);
-            //CarsInQue1Dynamics = ConvertMinutsToHours(CarsInQue1Dynamics);
-        }
-
-        /// <summary>
-        /// Расчет почасовых показателей для входных потоков. Для построение графиков.
-        /// </summary>
-        /// <param name="cars">Коллекция обслуженных машин</param>
-        /// <returns>Почасовые показатели.</returns>
-        public static List<int> ConvertMinutsToHours(List<int> list)
-        {
-            List<int> result = new();
-            var counter = 0;
-            var sum = 0;
-            foreach(var item in list)
-            {
-                counter++;
-                sum += item;
-                if (counter == 60)
-                {
-                    result.Add(sum/60);
-                    counter = 0;
-                    sum = 0;
-                }
-            }
-            return result;
+            CarsInQueue = carsInQue;
         }
 
         /// <summary>

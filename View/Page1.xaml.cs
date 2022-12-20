@@ -1,8 +1,5 @@
-﻿using LiveCharts.Wpf;
-using LiveCharts;
-using System;
+﻿using System.Collections.Generic;
 using System.Windows.Controls;
-using System.Collections.Generic;
 
 namespace TrafficModeling.View
 {

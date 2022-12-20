@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualBasic;
-
-namespace TrafficModeling.Model
+﻿namespace TrafficModeling.Model
 {
     /// <summary>
     /// VIEV MODEL
@@ -37,8 +35,8 @@ namespace TrafficModeling.Model
             timer = new();
             //serveStream = new(u1, stdDev1, u2, stdDev2, trafficLightTime, delay, length); // lambda1, lambda 2, light_time, stream_length, delay_time
             serveStream = new(
-                new InputStream( new CarGenerator(civilExpValue, civilDispersion, govExpValue, govDispersion), inputStream1ExpValue, inputStream1Dispersion, "Input Stream 1"),
-                new InputStream( new CarGenerator(civilExpValue, civilDispersion, govExpValue, govDispersion), inputStream2ExpValue, inputStream2Dispersion, "Input Stream 2"),
+                new InputStream(new CarGenerator(civilExpValue, civilDispersion, govExpValue, govDispersion), inputStream1ExpValue, inputStream1Dispersion, "Input Stream 1"),
+                new InputStream(new CarGenerator(civilExpValue, civilDispersion, govExpValue, govDispersion), inputStream2ExpValue, inputStream2Dispersion, "Input Stream 2"),
                 lightTime, delayTime, roadLength);
             SimStats = new();
             // подписываем обсерверов
@@ -60,7 +58,8 @@ namespace TrafficModeling.Model
                 timer.Increment();
             }
             // Записать статистику по автомобилям
-            SimStats.Process(serveStream.ServedCars, timer.CurrentTime);
+            SimStats.Process(serveStream.ServedCars, serveStream.InStream1.InputQueue.Count + serveStream.InStream2.InputQueue.Count, 
+                timer.CurrentTime);
         }
     }
 }

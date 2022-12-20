@@ -1,35 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using TrafficModeling.Model;
-
-namespace TrafficModeling.Presenters
+﻿namespace TrafficModeling.Presenters
 {
-    /// <summary>
-    /// Presetner class from MVP pattern.
-    /// </summary>
-    internal class Presenter
-    {
-        private Simulation _simulation; // Model
-        private MainWindow _mainWindow; // View 
-
-        public Presenter(Simulation simulation, MainWindow mainWindow)
+    /*    internal class Presenter
         {
-            _simulation = simulation;
-            _mainWindow = mainWindow;
-        }
+            private Simulation simulation; //Связь с моделью
+            private MainWindow mainWindow; // View 
 
-        public void RunSimulation() // Запуск процесса моделирования
-        {
-            _simulation.Run(); //Обновление модели
-        }
+            public Presenter(Simulation simulation, MainWindow mainWindow)
+            {
+                this.simulation = simulation;
+                this.mainWindow = mainWindow;
+            }
 
-        public void ValidateUserInput()
-        {
-
-        }
-    }
+            public void RunSimulation() // Запуск процесса моделирования
+            {
+                simulation.Run(); //Обновление модели
+            }
+        }*/
 }

@@ -23,7 +23,7 @@
             this.IsGreen = IsGreen;
             if (!IsGreen) // фаза "посередине"
                 Counter = delay;
-            else 
+            else
                 Counter = 0;
         }
 
