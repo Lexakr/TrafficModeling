@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TrafficModeling.Model.Statistics">
+    <Position X="2.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAJEBIAAAiBgAAAwIAIAABEAAAAAAAgAAAAAI=</HashCode>
+      <FileName>Model\Statistics.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficModeling.Model.Car">
+    <Position X="8" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAEAAAAEAQBACAAAAABAAAAAAgAAAA=</HashCode>
+      <FileName>Model\Cars.Car.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficModeling.Model.CivilCar" Collapsed="true">
+    <Position X="6.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Cars.CivilCar.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficModeling.Model.GovCar" Collapsed="true">
+    <Position X="9.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Cars.GovCar.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

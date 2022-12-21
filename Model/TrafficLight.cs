@@ -1,47 +1,66 @@
 ﻿namespace TrafficModeling.Model
 {
     /// <summary>
-    /// Светофор в Q-схеме выполняет роль клапана для двух потоков
+    /// Светофор, в Q-схеме выполняет роль клапана для входящего потока. Реализует интерфейс Наблюдатель.
     /// </summary>
-    internal class TrafficLight
+    internal class TrafficLight : ITimeObserver
     {
-        // длительность зеленого света
+        /// <summary>
+        /// Длительность зеленого света в тиках
+        /// </summary>
         public static int LightTime { get; set; }
-        // задержка перед переключением с красного на зеленый, когда противоположный светофор загорелся красным
+
+        /// <summary>
+        /// Задержка перед переключением с красного на зеленый. Равна времени зеленого света + 2 задержки (когда оба светофора красные).
+        /// </summary>
         public static int Delay { get; set; }
-        public int Counter { get; set; }
+
+        /// <summary>
+        /// Счетчик времени
+        /// </summary>
+        public int TimeCounter { get; set; }
+
+        /// <summary>
+        /// Фаза светофора
+        /// </summary>
         public bool IsGreen { get; set; }
 
-        public TrafficLight(bool IsGreen)
-        {
-            this.IsGreen = IsGreen;
-        }
         public TrafficLight(int lightTime, int delay, bool IsGreen)
         {
             LightTime = lightTime;
             Delay = 2 * delay + lightTime; // задержка = время зеленой фазы + время общей красной фазы
             this.IsGreen = IsGreen;
             if (!IsGreen) // фаза "посередине"
-                Counter = delay;
+                TimeCounter = delay;
             else
-                Counter = 0;
+                TimeCounter = 0;
         }
 
         /// <summary>
-        /// Реакция на dt светофором. Низкий таймер для зеленой фазы, высокий (+ задержка) для красной.
+        /// Реализация Update паттерна Наблюдатель. Переключение светофора в необходимый момент времени. 
         /// </summary>
-        /// <param name="time"></param>
-        public void Update()
+        /// <param name="time">Текущее время симуляции</param>
+        public void Update(ITime time)
         {
+            IncrementTimer();
+        }
+
+        /// <summary>
+        /// Инкремент внутреннего таймера светофора для отслеживания момента времени для переключения сигнала.
+        /// </summary>
+        public void IncrementTimer()
+        {
+            TimeCounter++;
+
             if (IsGreen)
             {
-                Counter++;
-                if (Counter == LightTime) SwitchSignal();
+                if (TimeCounter == LightTime) 
+                    SwitchSignal();
             }
             else
             {
-                Counter++;
-                if (Counter == Delay) SwitchSignal();
+                if (TimeCounter == Delay) 
+                    SwitchSignal();
             }
         }
 
@@ -51,7 +70,7 @@
         public void SwitchSignal()
         {
             IsGreen = !IsGreen;
-            Counter = 0;
+            TimeCounter = 0;
         }
     }
 }

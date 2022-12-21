@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using TrafficModeling.Model;
@@ -39,12 +38,12 @@ namespace TrafficModeling
 
         private void ButtonStart_Click(object sender, RoutedEventArgs e)
         {
-            
+
 
             if (!SettingsValidation())
                 return;
 
-            
+
 
             model = new(Properties.Settings.Default.timer * 36000, Properties.Settings.Default.road1time, Properties.Settings.Default.road1disp,
                 Properties.Settings.Default.road2time, Properties.Settings.Default.road2disp, Properties.Settings.Default.greenlight,
@@ -53,18 +52,18 @@ namespace TrafficModeling
 
             DataContext = model;
 
-            model.SimStats.ClearAllStats();
+            model.SimStats.ClearAllProperties();
 
             try
             {
                 model.Run();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Simulation Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            
+
 
             ShowStatistics();
 
@@ -225,7 +224,7 @@ namespace TrafficModeling
         /// <returns></returns>
         private string FormatTimeForView(int decisecond)
         {
-            if (decisecond < 600 )
+            if (decisecond < 600)
             {
                 return Math.Round((decisecond / 10.0), 2).ToString() + "s";
             }

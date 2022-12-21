@@ -1,15 +1,33 @@
 ﻿namespace TrafficModeling.Model
 {
     /// <summary>
-    /// VIEV MODEL
+    /// Симуляция в Q-схеме - прибор, включающий в себя элементы Q-схемы.
     /// </summary>
     internal class Simulation
     {
-        private Timer timer;
-        private ServeStream serveStream;
+        /// <summary>
+        /// Таймер симуляции
+        /// </summary>
+        private readonly Timer timer;
+
+        /// <summary>
+        /// Обслуживающий поток. Включает 2 входных и 2 светофора
+        /// </summary>
+        private readonly ServeStream serveStream;
+
+        /// <summary>
+        /// Статистика по симуляции
+        /// </summary>
         public Statistics SimStats { get; set; }
 
+        /// <summary>
+        /// Длительность симуляции
+        /// </summary>
         public int SimulationTime { get; set; }
+
+        /// <summary>
+        /// Таймер симуляции
+        /// </summary>
         public Timer Timer { get => timer; }
 
         /// <summary>
@@ -33,32 +51,35 @@
         {
             SimulationTime = simulationTime;
             timer = new();
-            //serveStream = new(u1, stdDev1, u2, stdDev2, trafficLightTime, delay, length); // lambda1, lambda 2, light_time, stream_length, delay_time
             serveStream = new(
                 new InputStream(new CarGenerator(civilExpValue, civilDispersion, govExpValue, govDispersion), inputStream1ExpValue, inputStream1Dispersion, "Input Stream 1"),
                 new InputStream(new CarGenerator(civilExpValue, civilDispersion, govExpValue, govDispersion), inputStream2ExpValue, inputStream2Dispersion, "Input Stream 2"),
                 lightTime, delayTime, roadLength);
             SimStats = new();
-            // подписываем обсерверов
+
+            // Подписываем наблюдателей. Светофоры обязательно первые, чтобы обслуживались первыми.
+            timer.Attach(serveStream.TLight1);
+            timer.Attach(serveStream.TLight2);
+
             timer.Attach(serveStream);
             timer.Attach(serveStream.InStream1);
             timer.Attach(serveStream.InStream2);
         }
 
         /// <summary>
-        /// 
+        /// Запуск симуляции с заданным временем.
         /// </summary>
         public void Run()
         {
-            // симуляция заданного количества времени
             for (int i = 0; i < SimulationTime; i++)
             {
+                // Каждую минуту фиксируем количество машин в очередях входных потоков
                 if (i % 600 == 0)
                     SimStats.AddCarsInQueToStat(serveStream);
                 timer.Increment();
             }
-            // Записать статистику по автомобилям
-            SimStats.Process(serveStream.ServedCars, serveStream.InStream1.InputQueue.Count + serveStream.InStream2.InputQueue.Count, 
+            // Записываем статистику по автомобилям
+            SimStats.Process(serveStream.ServedCars, serveStream.InStream1.InputQue.Count + serveStream.InStream2.InputQue.Count,
                 timer.CurrentTime);
         }
     }

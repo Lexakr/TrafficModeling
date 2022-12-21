@@ -16,7 +16,7 @@ namespace TrafficModeling.Model
         /// <param name="lambda">Лямбда</param>
         /// <param name="round">Округление</param>
         /// <returns>Экспоненциальная псевдо-СВ double.</returns>
-        public static double GetExpNum(int a, int b, double lambda)
+        public static double GetExponencialNum(int a, int b, double lambda)
         {
             var rand = new Random(); // Псевдослучайный ГЧ
             var exp_rate = Math.Exp(-lambda * a); // Параметр скорости (лямбда)

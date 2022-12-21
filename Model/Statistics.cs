@@ -5,22 +5,84 @@ using System.Reflection;
 
 namespace TrafficModeling.Model
 {
+    /// <summary>
+    /// Статистика по завершенной симуляции.
+    /// </summary>
     class Statistics
     {
+        /// <summary>
+        /// Общее время симуляции
+        /// </summary>
         public int SimulationTime { get; set; }
+
+        /// <summary>
+        /// Всего машин обслужено
+        /// </summary>
         public int TotalCars { get; set; }
+
+        /// <summary>
+        /// Гражданских машин обслужено
+        /// </summary>
         public int TotalCivilCars { get; set; }
+
+        /// <summary>
+        /// Машин спецслужб обслужено
+        /// </summary>
         public int TotalGovCars { get; set; }
-        public int MaxTravelTime { get; set; } // машина которая прошла очередь быстрее всех
+
+        /// <summary>
+        /// Машина, проехавшая участок быстрее всех
+        /// </summary>
+        public int MaxTravelTime { get; set; }
+
+        /// <summary>
+        /// Машина, проехавшая участок медленнее всех
+        /// </summary>
         public int MinTravelTime { get; set; }
+
+        /// <summary>
+        /// Наибольшее время ожидания в очереди (для обслуженных машин)
+        /// </summary>
         public int MaxWaitingTime { get; set; }
+
+        /// <summary>
+        /// Всего обслужено из 1 очереди
+        /// </summary>
         public int TotalCarsInStream1 { get; set; }
+
+        /// <summary>
+        /// Всего обслужено из 2 очереди
+        /// </summary>
         public int TotalCarsInStream2 { get; set; }
+
+        /// <summary>
+        /// Среднее время ожидания в 1 очереди
+        /// </summary>
         public int AvgWaitingTimeInStream1 { get; set; }
+
+        /// <summary>
+        /// Среднее время ожидания в0 2 очереди
+        /// </summary>
         public int AvgWaitingTimeInStream2 { get; set; }
+
+        /// <summary>
+        /// Среднее время проезда машин из 1 очереди
+        /// </summary>
         public int AvgServeTimeInStream1 { get; set; }
+
+        /// <summary>
+        /// Среднее время проезда машин из 2 очереди
+        /// </summary>
         public int AvgServeTimeInStream2 { get; set; }
+
+        /// <summary>
+        /// Динамика машин в 1 очереди
+        /// </summary>
         public List<int> CarsInQue1Dynamics { get; set; }
+
+        /// <summary>
+        /// Динамика машин во 2 очереди
+        /// </summary>
         public List<int> CarsInQue2Dynamics { get; set; }
 
         /// <summary>
@@ -28,6 +90,9 @@ namespace TrafficModeling.Model
         /// </summary>
         public int CarsInQueue { get; set; }
 
+        /// <summary>
+        /// Конструктор по умолчанию задает все параметры нулями.
+        /// </summary>
         public Statistics()
         {
             SimulationTime = 0;
@@ -47,22 +112,20 @@ namespace TrafficModeling.Model
             CarsInQue2Dynamics = new();
         }
 
-
         /// <summary>
-        /// Записывает 
+        /// Записывает количество машин в очередях в статистику.
         /// </summary>
-        /// <param name="stream"></param>
-        /// <param name="time"></param>
+        /// <param name="stream">Поток обслуживания</param>
         public void AddCarsInQueToStat(ServeStream stream)
         {
-            if (stream.InStream1.InputQueue != null)
+            if (stream.InStream1.InputQue != null)
             {
-                CarsInQue1Dynamics.Add(stream.InStream1.InputQueue.Count);
+                CarsInQue1Dynamics.Add(stream.InStream1.InputQue.Count);
             }
 
-            if (stream.InStream2.InputQueue != null)
+            if (stream.InStream2.InputQue != null)
             {
-                CarsInQue2Dynamics.Add(stream.InStream2.InputQueue.Count);
+                CarsInQue2Dynamics.Add(stream.InStream2.InputQue.Count);
             }
         }
 
@@ -94,7 +157,7 @@ namespace TrafficModeling.Model
         /// <summary>
         /// Очистка всех свойств экземпляра класса Statistics.
         /// </summary>
-        public void ClearAllStats()
+        public void ClearAllProperties()
         {
             foreach (var propertyInfo in this.GetType().GetProperties())
                 ClearProperty(propertyInfo);

@@ -1,8 +1,14 @@
 ﻿namespace TrafficModeling.Model
 {
+    /// <summary>
+    /// Интерфейс Наблюдатель паттерна Наблюдатель
+    /// </summary>
     internal interface ITimeObserver
     {
-        // Получение обновления от издателя
+        /// <summary>
+        /// Получение обновления от издателя
+        /// </summary>
+        /// <param name="subject">Издатель</param>
         void Update(ITime subject);
     }
 }

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TrafficModeling"
         xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" 
+        Title="Traffic Simulation" 
         Width="1150"
         Height="400"
         MinWidth="1150"
@@ -101,7 +101,7 @@
                                                  Margin="0,5"/>
                                         <Label Content="road length:"/>
                                         <TextBox x:Name="Length"
-                                                 Width="30"
+                                                 Width="34"
                                                  Margin="0,5"/>
                                     </StackPanel>
                                 </StackPanel>

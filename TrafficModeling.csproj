@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Presenters\**" />
+    <EmbeddedResource Remove="Presenters\**" />
+    <None Remove="Presenters\**" />
+    <Page Remove="Presenters\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="road.jpeg" />
   </ItemGroup>
 
@@ -27,7 +34,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Presenters\" />
     <Folder Include="ViewModel\" />
   </ItemGroup>
 

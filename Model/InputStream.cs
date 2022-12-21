@@ -1,60 +1,102 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 namespace TrafficModeling.Model
 {
+    /// <summary>
+    /// Входной поток машин (очередь). Основная функция - генерация экземпляров автомобилей. Реализует паттерн Наблюдатель
+    /// </summary>
     internal class InputStream : ITimeObserver
     {
-        private CarGenerator carGen; // как лучше?????
-        private List<Car> inputQue;
-        private double u; // Мат ожидание (для выбора через сколько сек создать новую машину)
-        private double stdDev; // dispersin
-        private int counter = 0; // счетчик времени
-        private int carGenTime; // время возникновения события
+        /// <summary>
+        /// Экземпляр генератора автомобилей
+        /// </summary>
+        private readonly CarGenerator carGen;
 
-        public string Name { get; set; }
-        public List<Car> InputQueue { get => inputQue; set => inputQue = value; }
+        /// <summary>
+        /// Мат ожидание (через сколько тиков создать новый Car)
+        /// </summary>
+        private readonly double expectedValue;
 
-        public InputStream(CarGenerator carGen, double u, double stdDev, string streamName)
+        /// <summary>
+        /// Имя входящего потока
+        /// </summary>
+        private readonly string name;
+
+        /// <summary>
+        /// Дисперсия 
+        /// </summary>
+        private readonly double stdDev;
+
+        /// <summary>
+        /// Счетчик времени в тиках для генерации машины
+        /// </summary>
+        private int timeCounter = 0;
+
+        /// <summary>
+        /// Время в тиках, через сколько возникнет событие генерации машины
+        /// </summary>
+        private int carGenTime;
+
+        /// <summary>
+        /// Очередь машин входящего потока
+        /// </summary>
+        public List<Car> InputQue { get; set; }
+
+        public InputStream(CarGenerator carGen, double expectedValue, double stdDev, string streamName)
         {
             this.carGen = carGen;
-            inputQue = new();
-            this.u = u;
+            InputQue = new();
+            this.expectedValue = expectedValue;
             this.stdDev = stdDev;
             carGenTime = NextCarGenTime(); // время первой генерации
-            Name = streamName;
+            name = streamName;
         }
 
         /// <summary>
-        /// Генерация времени до следующего появления машины.
+        /// Генерация времени в тиках до следующего появления машины.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Тиков до следующей генерации машины</returns>
         public int NextCarGenTime()
         {
-            int result = (int)(Randoms.GetNormalNum(u, stdDev) * 10);
+            int result = (int)(Randoms.GetNormalNum(expectedValue, stdDev) * 10);
+            
+            // Следим, чтобы случайная величина всегда была > 0
             if (result < 0)
                 result *= -1;
             if (result == 0)
                 result = 1;
+
             return result;
         }
 
-        public void Update(ITime time)
+        /// <summary>
+        /// Реализация Update паттерна Наблюдатель. Генерация новой машины в очередь в заданное случайное время.
+        /// </summary>
+        /// <param name="time">Текущее время симуляции в тиках</param>
+        /// <exception cref="Exception"></exception>
+        public void Update(ITime timer)
         {
-            counter++;
-            if (counter == carGenTime)
+            AddCar(timer.CurrentTime);
+        }
+
+        public void AddCar(int time)
+        {
+            timeCounter++;
+
+            if (timeCounter == carGenTime)
             {
-                var car = carGen.Generate(this.Name, time);
+                var car = carGen.Generate(this.name, time);
+
+                // Машины спецслужь помещаются на первое место в очереди
                 if (car.Priority)
-                    inputQue.Insert(0, car); // Вне очереди
-                else inputQue.Add(car); // создаем авто и помещаем в очередь
-                if (inputQue.Count > 1000000)
-                    throw new Exception(Name + " reached the number of 10000 vehicles. Further simulation is pointless." +
-                        " Change the simulation parameters for this flow or for the traffic light.");
-                counter = 0;
-                carGenTime = NextCarGenTime(); // время до следующей генерации\
+                    InputQue.Insert(0, car);
+                else
+                    InputQue.Add(car);
+
+                timeCounter = 0;
+                // время до следующей генерации
+                carGenTime = NextCarGenTime();
             }
         }
     }

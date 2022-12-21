@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TrafficModeling.Model.Timer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAIAAAAAAAAIAAAADAAAAAgAQAAAA=</HashCode>
+      <FileName>Model\Timer.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="_observers" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Class Name="TrafficModeling.Model.TrafficLight" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAQAAAAAAgAAAAAAAAACEACAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\TrafficLight.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Class Name="TrafficModeling.Model.ServeStream" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBAAAIAAAAiJAgAEAAAAAAAAAAAJAgEAAQEgAAAAA=</HashCode>
+      <FileName>Model\ServeStream.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Class Name="TrafficModeling.Model.InputStream" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAgAAAQAAAACAAAAAAAAAAAEAAAAAEQAAAAAAAE=</HashCode>
+      <FileName>Model\InputStream.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Interface Name="TrafficModeling.Model.ITime">
+    <Position X="7.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAAAAIAAAABAAAAAgAAAAAA=</HashCode>
+      <FileName>Model\ITime.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TrafficModeling.Model.ITimeObserver">
+    <Position X="5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\ITimeObserver.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

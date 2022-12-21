@@ -2,11 +2,24 @@
 
 namespace TrafficModeling.Model
 {
+    /// <summary>
+    /// Таймер симуляции. Издатель паттерна Наблюдатель.
+    /// </summary>
     internal class Timer : ITime
     {
-        private int currentTime = 0;
-        private List<ITimeObserver> _observers = new();
+        /// <summary>
+        /// Коллекция наблюдателей
+        /// </summary>
+        private readonly List<ITimeObserver> _observers = new();
 
+        /// <summary>
+        /// Текущее время в тиках
+        /// </summary>
+        private int currentTime = 0;
+
+        /// <summary>
+        /// Текущее время в тиках
+        /// </summary>
         public int CurrentTime { get { return currentTime; } }
 
         public void Attach(ITimeObserver observer) => _observers.Add(observer);
@@ -19,6 +32,9 @@ namespace TrafficModeling.Model
             }
         }
 
+        /// <summary>
+        /// Текущее время + 1 тик.
+        /// </summary>
         public void Increment()
         {
             currentTime++;
