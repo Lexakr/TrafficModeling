@@ -3,18 +3,29 @@ using CommunityToolkit.Mvvm.Input;
 using LiveCharts.Helpers;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore.SkiaSharpView.Painting;
-using SkiaSharp;
 using System.Collections.Generic;
 
 namespace TrafficModeling.View
 {
     [ObservableObject]
-    public partial class Page1VM
+    public partial class ChartsVM
     {
-        public Page1VM(List<int> points1, List<int> points2)
+        [ObservableProperty]
+        public ISeries[] seriesCollection;
+
+        [ObservableProperty]
+        public Axis[] xAxes;
+
+        [ObservableProperty]
+        public Axis[] yAxes;
+
+        public ChartsVM()
         {
 
+        }
+
+        public void CreateChart(List<int> points1, List<int> points2)
+        {
             SeriesCollection = new ISeries[]
             {
                 new LineSeries<int>
@@ -24,7 +35,6 @@ namespace TrafficModeling.View
                     Fill = null,
                     Values = points1.AsChartValues(),
                     LineSmoothness = 0.2,
-                    Stroke = new SolidColorPaint(SKColors.Blue, 1)
                 },
                 new LineSeries<int>
                 {
@@ -33,7 +43,6 @@ namespace TrafficModeling.View
                     Fill = null,
                     Values = points2.AsChartValues(),
                     LineSmoothness = 0.2,
-                    Stroke = new SolidColorPaint(SKColors.Red, 1)
                 }
             };
 
@@ -54,16 +63,10 @@ namespace TrafficModeling.View
             };
         }
 
-
-        public ISeries[] SeriesCollection { get; set; }
-        public Axis[] XAxes { get; set; }
-        public Axis[] YAxes { get; set; }
-
         [RelayCommand]
         public void ToggleSeries0()
         {
             SeriesCollection[0].IsVisible = !SeriesCollection[0].IsVisible;
-
         }
 
         [RelayCommand]

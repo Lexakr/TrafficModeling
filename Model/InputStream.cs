@@ -60,7 +60,7 @@ namespace TrafficModeling.Model
         public int NextCarGenTime()
         {
             int result = (int)(Randoms.GetNormalNum(expectedValue, stdDev) * 10);
-            
+
             // Следим, чтобы случайная величина всегда была > 0
             if (result < 0)
                 result *= -1;

@@ -1,155 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="TrafficModeling.Model.Simulation">
-    <Position X="7.75" Y="4.75" Width="1.75" />
-    <Members>
-      <Method Name="Simulation" Hidden="true" />
-      <Property Name="SimulationTime" Hidden="true" />
-      <Field Name="timer" Hidden="true" />
-    </Members>
-    <AssociationLine Name="serveStream" Type="TrafficModeling.Model.ServeStream">
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.06" Y="0.133" />
-      </MemberNameLabel>
-    </AssociationLine>
-    <AssociationLine Name="Timer" Type="TrafficModeling.Model.Timer">
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-0.659" Y="0.549" />
-      </MemberNameLabel>
-    </AssociationLine>
-    <AssociationLine Name="SimStats" Type="TrafficModeling.Model.Statistics">
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.025" Y="0.587" />
-      </MemberNameLabel>
-    </AssociationLine>
-    <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAAAAAAAAAAAQAAgAAAEAAAAAAAAAAEAAI=</HashCode>
-      <FileName>Model\Simulation.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="serveStream" />
-      <Property Name="SimStats" />
-      <Property Name="Timer" />
-    </ShowAsAssociation>
-  </Class>
-  <Class Name="TrafficModeling.Model.ServeStream">
-    <Position X="7.5" Y="6.75" Width="2.25" />
-    <Members>
-      <Field Name="addCounter" Hidden="true" />
-      <Field Name="inputStream1" Hidden="true" />
-      <Field Name="inputStream2" Hidden="true" />
-      <Field Name="length" Hidden="true" />
-      <Field Name="nextAddRequestTime" Hidden="true" />
-      <Field Name="serveQueue" Hidden="true" />
-      <Method Name="ServeStream" Hidden="true" />
-      <Field Name="tLight1" Hidden="true" />
-      <Field Name="tLight2" Hidden="true" />
-    </Members>
-    <AssociationLine Name="ServedCars" Type="TrafficModeling.Model.Car">
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.028" Y="0.176" />
-      </MemberNameLabel>
-    </AssociationLine>
-    <TypeIdentifier>
-      <HashCode>AAQBAAAIAAAAiJAgAEAAAAAAAAAAAJAgEAAQEgAAAAA=</HashCode>
-      <FileName>Model\ServeStream.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="TLight1" />
-      <Property Name="TLight2" />
-      <Property Name="InStream2" />
-      <Property Name="InStream1" />
-    </ShowAsAssociation>
-    <ShowAsCollectionAssociation>
-      <Property Name="ServedCars" />
-    </ShowAsCollectionAssociation>
-    <Lollipop Position="1.298" />
-  </Class>
-  <Class Name="TrafficModeling.Model.Statistics">
-    <Position X="10.25" Y="5.75" Width="2" />
-    <Members>
-      <Method Name="AddCarsInQueToStat" Hidden="true" />
-      <Property Name="AvgServeTimeInStream1" Hidden="true" />
-      <Property Name="AvgServeTimeInStream2" Hidden="true" />
-      <Property Name="AvgWaitingTimeInStream1" Hidden="true" />
-      <Property Name="AvgWaitingTimeInStream2" Hidden="true" />
-      <Property Name="CarsInQue1Dynamics" Hidden="true" />
-      <Property Name="CarsInQue2Dynamics" Hidden="true" />
-      <Property Name="CarsInQueue" Hidden="true" />
-      <Property Name="MaxTravelTime" Hidden="true" />
-      <Property Name="MaxWaitingTime" Hidden="true" />
-      <Property Name="MinTravelTime" Hidden="true" />
-      <Property Name="SimulationTime" Hidden="true" />
-      <Method Name="Statistics" Hidden="true" />
-      <Property Name="TotalCars" Hidden="true" />
-      <Property Name="TotalCarsInStream1" Hidden="true" />
-      <Property Name="TotalCarsInStream2" Hidden="true" />
-      <Property Name="TotalCivilCars" Hidden="true" />
-      <Property Name="TotalGovCars" Hidden="true" />
-    </Members>
-    <TypeIdentifier>
-      <HashCode>AAEAAAAAJEBIAAAiBgAAAwIAIAABEAAAAAAAgAAAAAI=</HashCode>
-      <FileName>Model\Statistics.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="TrafficModeling.Model.Timer">
-    <Position X="5" Y="5.75" Width="2" />
-    <Members>
-      <Field Name="_observers" Hidden="true" />
-      <Field Name="currentTime" Hidden="true" />
-      <Property Name="CurrentTime" Hidden="true" />
-      <Method Name="Detach" Hidden="true" />
-    </Members>
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAIAIAAAAAAAAIAAAADAAAAAgAQAAAA=</HashCode>
-      <FileName>Model\Timer.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="TrafficModeling.Model.InputStream">
-    <Position X="5" Y="7.75" Width="1.5" />
-    <Members>
-      <Field Name="carGenTime" Hidden="true" />
-      <Field Name="expectedValue" Hidden="true" />
-      <Method Name="InputStream" Hidden="true" />
-      <Field Name="name" Hidden="true" />
-      <Field Name="stdDev" Hidden="true" />
-      <Field Name="timeCounter" Hidden="true" />
-    </Members>
-    <AssociationLine Name="InputQue" Type="TrafficModeling.Model.Car">
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.701" Y="-0.006" />
-      </MemberNameLabel>
-    </AssociationLine>
-    <TypeIdentifier>
-      <HashCode>AAYAAAgAAAQAAAACAAAAAAAAAAAEAAAAAEQAAAAAAAE=</HashCode>
-      <FileName>Model\InputStream.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="carGen" />
-    </ShowAsAssociation>
-    <ShowAsCollectionAssociation>
-      <Property Name="InputQue" />
-    </ShowAsCollectionAssociation>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="TrafficModeling.Model.TrafficLight">
-    <Position X="10.75" Y="7.75" Width="1.5" />
-    <Members>
-      <Property Name="Delay" Hidden="true" />
-      <Property Name="IsGreen" Hidden="true" />
-      <Property Name="LightTime" Hidden="true" />
-      <Property Name="TimeCounter" Hidden="true" />
-      <Method Name="TrafficLight" Hidden="true" />
-    </Members>
-    <TypeIdentifier>
-      <HashCode>CAQAAAAAAgAAAAAAAAACEACAAAAIAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Model\TrafficLight.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
   <Class Name="TrafficModeling.Model.CarGenerator">
-    <Position X="2.5" Y="8" Width="1.5" />
+    <Position X="3.5" Y="6" Width="1.5" />
     <Members>
       <Field Name="bernoulli" Hidden="true" />
       <Method Name="CarGenerator" Hidden="true" />
@@ -165,12 +17,139 @@
       <FileName>Model\CarGenerator.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="TrafficModeling.Model.Car" Collapsed="true">
-    <Position X="8" Y="9" Width="1.5" />
+  <Class Name="TrafficModeling.Model.InputStream">
+    <Position X="6.25" Y="6" Width="1.5" />
+    <Members>
+      <Field Name="carGenTime" Hidden="true" />
+      <Field Name="expectedValue" Hidden="true" />
+      <Property Name="InputQue" Hidden="true" />
+      <Method Name="InputStream" Hidden="true" />
+      <Field Name="name" Hidden="true" />
+      <Field Name="stdDev" Hidden="true" />
+      <Field Name="timeCounter" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAIAAAAAAAAEAAAAEAQBACAAAAABAAAAAAgAAAA=</HashCode>
-      <FileName>Model\Cars.Car.cs</FileName>
+      <HashCode>AAYAAAgAAAQAAAACAAAAAAAAAAAEAAAAAEQAAAAAAAE=</HashCode>
+      <FileName>Model\InputStream.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="carGen" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TrafficModeling.Model.Statistics">
+    <Position X="1.25" Y="9" Width="1.75" />
+    <Members>
+      <Field Name="avgServeTimeInStream1" Hidden="true" />
+      <Field Name="avgServeTimeInStream2" Hidden="true" />
+      <Field Name="avgWaitingTimeInStream1" Hidden="true" />
+      <Field Name="avgWaitingTimeInStream2" Hidden="true" />
+      <Field Name="carsInQue1Dynamics" Hidden="true" />
+      <Field Name="carsInQue2Dynamics" Hidden="true" />
+      <Field Name="carsInQueue" Hidden="true" />
+      <Field Name="maxTravelTime" Hidden="true" />
+      <Field Name="maxWaitingTime" Hidden="true" />
+      <Field Name="minTravelTime" Hidden="true" />
+      <Method Name="Statistics" Hidden="true" />
+      <Field Name="totalCars" Hidden="true" />
+      <Field Name="totalCarsInStream1" Hidden="true" />
+      <Field Name="totalCarsInStream2" Hidden="true" />
+      <Field Name="totalCivilCars" Hidden="true" />
+      <Field Name="totalGovCars" Hidden="true" />
+      <Field Name="totalSimulationTime" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAgAgABACACAARCCgAgAAIAgAMBAAAABAAABAAAAAA=</HashCode>
+      <FileName>Model\Statistics.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TrafficModeling.Model.Timer">
+    <Position X="4" Y="7.5" Width="1.5" />
+    <Members>
+      <Field Name="_observers" Hidden="true" />
+      <Field Name="currentTime" Hidden="true" />
+      <Property Name="CurrentTime" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAIAAAAAAAAIAAAADAAAAAgAQAAAA=</HashCode>
+      <FileName>Model\Timer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TrafficModeling.Model.TrafficLight">
+    <Position X="9.5" Y="9" Width="1.5" />
+    <Members>
+      <Property Name="Delay" Hidden="true" />
+      <Property Name="IsGreen" Hidden="true" />
+      <Property Name="LightTime" Hidden="true" />
+      <Property Name="TimeCounter" Hidden="true" />
+      <Method Name="TrafficLight" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>CAQAAAAAAgAAAAAAAAACEACAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\TrafficLight.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TrafficModeling.Model.Simulation">
+    <Position X="4" Y="9.5" Width="1.5" />
+    <Members>
+      <Field Name="serveStream" Hidden="true" />
+      <Method Name="Simulation" Hidden="true" />
+      <Property Name="SimulationTime" Hidden="true" />
+      <Field Name="timer" Hidden="true" />
+    </Members>
+    <AssociationLine Name="ServeStream" Type="TrafficModeling.Model.ServeStream">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.032" Y="0.06" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAACAAQAAgAAAEAAAAAAAAAAEAAI=</HashCode>
+      <FileName>Model\Simulation.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Timer" />
+      <Property Name="ServeStream" />
+      <Property Name="SimStats" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="TrafficModeling.Model.ServeStream">
+    <Position X="6.5" Y="8.75" Width="2" />
+    <Members>
+      <Field Name="addCounter" Hidden="true" />
+      <Field Name="inputStream1" Hidden="true" />
+      <Field Name="inputStream2" Hidden="true" />
+      <Field Name="length" Hidden="true" />
+      <Field Name="nextAddRequestTime" Hidden="true" />
+      <Property Name="ServedCars" Hidden="true" />
+      <Field Name="serveQueue" Hidden="true" />
+      <Method Name="ServeStream" Hidden="true" />
+      <Field Name="tLight1" Hidden="true" />
+      <Field Name="tLight2" Hidden="true" />
+    </Members>
+    <AssociationLine Name="InStream1" Type="TrafficModeling.Model.InputStream">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.06" Y="0.394" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="InStream2" Type="TrafficModeling.Model.InputStream">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.933" Y="0.394" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAQBAAAIAAAAiJAgAEAAAAAAAAAAAJAgEAAQEgAAAAA=</HashCode>
+      <FileName>Model\ServeStream.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="InStream1" />
+      <Property Name="InStream2" />
+      <Property Name="TLight1" />
+      <Property Name="TLight2" />
+    </ShowAsAssociation>
+    <Lollipop Position="1.193" />
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

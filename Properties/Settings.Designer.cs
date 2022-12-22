@@ -26,144 +26,144 @@ namespace TrafficModeling.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public double civCarV {
+        public int CivilCarSpeed {
             get {
-                return ((double)(this["civCarV"]));
+                return ((int)(this["CivilCarSpeed"]));
             }
             set {
-                this["civCarV"] = value;
+                this["CivilCarSpeed"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public double civCarDev {
+        public double CivilCarSpeedDeviance {
             get {
-                return ((double)(this["civCarDev"]));
+                return ((double)(this["CivilCarSpeedDeviance"]));
             }
             set {
-                this["civCarDev"] = value;
+                this["CivilCarSpeedDeviance"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public double govCarV {
+        public int GovermentCarSpeed {
             get {
-                return ((double)(this["govCarV"]));
+                return ((int)(this["GovermentCarSpeed"]));
             }
             set {
-                this["govCarV"] = value;
+                this["GovermentCarSpeed"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public double govCarDev {
+        public double GovermentCarSpeedDeviance {
             get {
-                return ((double)(this["govCarDev"]));
+                return ((double)(this["GovermentCarSpeedDeviance"]));
             }
             set {
-                this["govCarDev"] = value;
+                this["GovermentCarSpeedDeviance"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public double road1time {
+        public double InputStream1ExpValue {
             get {
-                return ((double)(this["road1time"]));
+                return ((double)(this["InputStream1ExpValue"]));
             }
             set {
-                this["road1time"] = value;
+                this["InputStream1ExpValue"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public double road1disp {
+        public double InputStream1Dispersion {
             get {
-                return ((double)(this["road1disp"]));
+                return ((double)(this["InputStream1Dispersion"]));
             }
             set {
-                this["road1disp"] = value;
+                this["InputStream1Dispersion"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public double road2time {
+        public double InputStream2ExpValue {
             get {
-                return ((double)(this["road2time"]));
+                return ((double)(this["InputStream2ExpValue"]));
             }
             set {
-                this["road2time"] = value;
+                this["InputStream2ExpValue"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public double road2disp {
+        public double InputStream2Dispersion {
             get {
-                return ((double)(this["road2disp"]));
+                return ((double)(this["InputStream2Dispersion"]));
             }
             set {
-                this["road2disp"] = value;
+                this["InputStream2Dispersion"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int greenlight {
+        public int TrafficLightTime {
             get {
-                return ((int)(this["greenlight"]));
+                return ((int)(this["TrafficLightTime"]));
             }
             set {
-                this["greenlight"] = value;
+                this["TrafficLightTime"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int redlight {
+        public int TrafficLightDelay {
             get {
-                return ((int)(this["redlight"]));
+                return ((int)(this["TrafficLightDelay"]));
             }
             set {
-                this["redlight"] = value;
+                this["TrafficLightDelay"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int timer {
+        public int SimulationTime {
             get {
-                return ((int)(this["timer"]));
+                return ((int)(this["SimulationTime"]));
             }
             set {
-                this["timer"] = value;
+                this["SimulationTime"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int length {
+        public int RoadLength {
             get {
-                return ((int)(this["length"]));
+                return ((int)(this["RoadLength"]));
             }
             set {
-                this["length"] = value;
+                this["RoadLength"] = value;
             }
         }
     }

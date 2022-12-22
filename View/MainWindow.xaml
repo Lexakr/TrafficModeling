@@ -3,14 +3,54 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TrafficModeling"
+        xmlns:props="clr-namespace:TrafficModeling.Properties"
         xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+        xmlns:local1="clr-namespace:TrafficModeling.ViewModel" xmlns:src="clr-namespace:TrafficModeling" d:DataContext="{d:DesignInstance Type=local1:MainWindowVM}"
         mc:Ignorable="d"
         Title="Traffic Simulation" 
         Width="1150"
         Height="400"
         MinWidth="1150"
         MinHeight="400">
+    <Window.Resources>
+        <src:IntToTimeConverter x:Key="IntToTimeConverter"/>
+
+        <Style x:Key="CustomTextBoxTextStyle" TargetType="TextBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border x:Name="bg" BorderBrush="Gray" BorderThickness="1"/>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Validation.HasError" Value="True">
+                                <Trigger.Setters>
+                                    <Setter Property="Background" Value="Tomato"/>
+                                    <Setter Property="BorderBrush" TargetName="bg" Value="Red"/>
+                                </Trigger.Setters>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <local1:MainWindowVM x:Key="Ods"/>
+
+        <ControlTemplate x:Key="validationTemplate">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Right"
+                           Background="Transparent"
+                           Foreground="Red" 
+                           FontSize="15"
+                           FontWeight="Heavy"
+                           Text="! "
+                           ToolTipService.InitialShowDelay="5"
+                           ToolTip="{Binding ErrorContent}">
+                </TextBlock>
+                <AdornedElementPlaceholder/>
+            </DockPanel>
+        </ControlTemplate>
+
+    </Window.Resources>
 
     <Grid>
         <TabControl Name="Tab_Model">
@@ -27,25 +67,34 @@
                                     <StackPanel Orientation="Horizontal"
                                         Margin="5,0,5,0">
                                         <Label Content="Civil cars Speed:"/>
-                                        <TextBox x:Name="CivCarSpeed"
+                                        <TextBox 
+                                                 x:Name="CivCarSpeed"
                                                  Width="30"
-                                                 Margin="0,5"/>
+                                                 Margin="0,5"
+                                                 Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                                                 Text="{Binding Path=CivilCarSpeed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        </TextBox>
                                         <Label Content="Dispersion:"/>
                                         <TextBox x:Name="CivCarStdDev"
                                                  Width="30"
-                                                 Margin="0,5"/>
+                                                 Margin="0,5"
+                                                 Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                                                 Text="{Binding Path=CivilCarSpeedDeviance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal"
                                                 Margin="5,0,5,5">
                                         <Label Content="Goverment cars Speed:"/>
                                         <TextBox x:Name="GovCarSpeed"
                                                  Margin="0,5"
-                                                 Width="30"/>
+                                                 Width="30"
+                                                 Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                                                 Text="{Binding Path=GovermentCarSpeed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                         <Label Content="Dispersion:"/>
                                         <TextBox x:Name="GovCarStdDev"
-                                                 Text=""
                                                  Width="30"
-                                                 Margin="0,5"/>
+                                                 Margin="0,5"
+                                                 Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                                                 Text="{Binding Path=GovermentCarSpeedDeviance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     </StackPanel>
                                 </StackPanel>
                             </GroupBox>
@@ -57,26 +106,31 @@
                                            Width="175"/>
                                         <TextBox x:Name="InputStream1ExpValue"
                                                  Margin="0,5"
-                                                 Width="30"/>
+                                                 Width="30"
+                                                 Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                                                 Text="{Binding Path=InputStream1ExpValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                         <Label Content="Dispersion:"/>
                                         <TextBox x:Name="InputStream1Dispersion"
-                                                 Text=""
                                                  Width="30"
-                                                 Margin="0,5"/>
+                                                 Margin="0,5"
+                                                 Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                                                 Text="{Binding Path=InputStream1Dispersion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal"
                                         Margin="5,0,5,5">
                                         <Label Content="Road 2 average car arrival time:"
                                            Width="175"/>
                                         <TextBox x:Name="InputStream2ExpValue"
-                                                 Text=""
                                                  Width="30"
-                                                 Margin="0,5"/>
+                                                 Margin="0,5"
+                                                 Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                                                 Text="{Binding Path=InputStream2ExpValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                         <Label Content="Dispersion:"/>
                                         <TextBox x:Name="InputStream2Dispersion"
-                                                 Text=""
                                                  Margin="0,5"
-                                                 Width="30"/>
+                                                 Width="30"
+                                                 Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                                                 Text="{Binding Path=InputStream2Dispersion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     </StackPanel>
                                 </StackPanel>
                             </GroupBox>
@@ -87,22 +141,32 @@
                                         <Label Content="Traffic Light green light time"/>
                                         <TextBox x:Name="TrafficLightTime"
                                                  Width="30"
-                                                 Margin="0,5"/>
+                                                 Margin="0,5"
+                                                 Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                                                 Text="{Binding Path=TrafficLightTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                         <Label Content="red light time:"/>
                                         <TextBox x:Name="TrafficLightDelay"
                                                  Width="30"
-                                                 Margin="0,5"/>
+                                                 Margin="0,5"
+                                                 Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                                                 Text="{Binding Path=TrafficLightDelay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal"
                                                 Margin="5,0,5,5">
                                         <Label Content="Simulation Time (in hours):"/>
                                         <TextBox x:Name="SimulationTime"
+                                                 Validation.ErrorTemplate="{StaticResource validationTemplate}"
                                                  Width="30"
-                                                 Margin="0,5"/>
+                                                 Margin="0,5"
+                                                 Text="{Binding Path=SimulationTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                            
+                                        </TextBox>
                                         <Label Content="road length:"/>
                                         <TextBox x:Name="Length"
+                                                 Validation.ErrorTemplate="{StaticResource validationTemplate}"
                                                  Width="34"
-                                                 Margin="0,5"/>
+                                                 Margin="0,5"
+                                                 Text="{Binding Path=RoadLength, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     </StackPanel>
                                 </StackPanel>
                             </GroupBox>
@@ -113,7 +177,7 @@
                                         Content="Start Simulation"
                                         Height="40"
                                         Width="120"
-                                        Click="ButtonStart_Click"/>
+                                        Command="{Binding StartCommand}"/>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Orientation="Vertical"
@@ -122,74 +186,74 @@
                                 <StackPanel Orientation="Vertical" >
                                     <StackPanel Orientation="Horizontal">
                                         <Label Content="Simulation lasted:"/>
-                                        <TextBlock Text="0" 
+                                        <TextBlock Text="{Binding Simulat.SimStats.TotalSimulationTime, Converter={StaticResource IntToTimeConverter}}" 
                                                x:Name="simulationTime"
                                                Margin="0,5"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Label Content="Section passed by"/>
-                                        <TextBlock Text="0"
+                                        <TextBlock Text="{Binding Simulat.SimStats.TotalCars}"
                                                x:Name="totalCars"
                                                Margin="0,5"/>
                                         <Label Content="cars. Of these, civil:"/>
-                                        <TextBlock Text="0"
+                                        <TextBlock Text="{Binding Simulat.SimStats.TotalCivilCars}"
                                                x:Name="totalCivCars"
                                                Margin="0,5"/>
                                         <Label Content="goverment:"/>
-                                        <TextBlock Text="0"
+                                        <TextBlock Text="{Binding Simulat.SimStats.TotalGovCars}"
                                                x:Name="totalGovCars"
                                                Margin="0,5"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Label Content="On both sides: 1:"
                                            Margin="20,0,0,0"/>
-                                        <TextBlock Text="0"
+                                        <TextBlock Text="{Binding Simulat.SimStats.TotalCarsInStream1}"
                                                x:Name="totalCarsInStream1"
                                                Margin="0,5"/>
                                         <Label Content="2: "/>
-                                        <TextBlock Text="0"
+                                        <TextBlock Text="{Binding Simulat.SimStats.TotalCarsInStream2}"
                                                x:Name="totalCarsInStream2"
                                                Margin="0,5"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Label Content="Average waiting time in queue[1]:"/>
-                                        <TextBlock Text="0"
+                                        <TextBlock Text="{Binding Simulat.SimStats.AvgWaitingTimeInStream1, Converter={StaticResource IntToTimeConverter}}"
                                                x:Name="avgWaitTimeInStream1"
                                                Margin="0,5"/>
                                         <Label Content="queue[2]: "/>
-                                        <TextBlock Text="0"
+                                        <TextBlock Text="{Binding Simulat.SimStats.AvgWaitingTimeInStream2, Converter={StaticResource IntToTimeConverter}}"
                                                x:Name="avgWaitTimeInStream2"
                                                Margin="0,5"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Label Content="Average travel time: stream[1]:"/>
-                                        <TextBlock Text="0"
+                                        <TextBlock Text="{Binding Simulat.SimStats.AvgServeTimeInStream1, Converter={StaticResource IntToTimeConverter}}"
                                                x:Name="avgServeTimeInStream1"
                                                Margin="0,5"/>
                                         <Label Content="stream[2]:"/>
-                                        <TextBlock Text="0"
+                                        <TextBlock Text="{Binding Simulat.SimStats.AvgServeTimeInStream2, Converter={StaticResource IntToTimeConverter}}"
                                                x:Name="avgServeTimeInStream2"
                                                Margin="0,5"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Label Content="The slowest car traveled the section in:"/>
-                                        <TextBlock Text="0s"
+                                        <TextBlock Text="{Binding Simulat.SimStats.MaxTravelTime, Converter={StaticResource IntToTimeConverter}}"
                                                x:Name="maxServeTime"
                                                Margin="0,5"/>
                                         <Label Content=".The fastest in:"/>
-                                        <TextBlock Text="0s"
+                                        <TextBlock Text="{Binding Simulat.SimStats.MinTravelTime, Converter={StaticResource IntToTimeConverter}}"
                                                x:Name="minServeTime"
                                                Margin="0,5"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Label Content="Longest waiting in queue:"/>
-                                        <TextBlock Text="0"
+                                        <TextBlock Text="{Binding Simulat.SimStats.MaxWaitingTime, Converter={StaticResource IntToTimeConverter}}"
                                                x:Name="maxWaitTime"
                                                Margin="0,5"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Label Content="Cars queued by the end of the simulation (unserved):"/>
-                                        <TextBlock Text="0"
+                                        <TextBlock Text="{Binding Simulat.SimStats.CarsInQueue}"
                                                x:Name="carsInQueue"
                                                Margin="0,5"/>
                                     </StackPanel>
@@ -198,10 +262,39 @@
                         </StackPanel>
                         <StackPanel>
                             <Image
-                           Source="/road.jpeg"
+                           Source="road.jpeg"
                            Width="320" Height="320"/>
                         </StackPanel>
                     </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Charts">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Command="{Binding ChartVM.ToggleSeries0Command}" Margin="15">Toggle first</Button>
+                            <Button Command="{Binding ChartVM.ToggleSeries1Command}" Margin="15">Toggle second</Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                            <TextBlock Text="Dynamics of cars in queues"
+                           FontSize="20"
+                           VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <lvc:CartesianChart
+                        Name="Charts"
+                        Grid.Row="1"
+                        Series="{Binding ChartVM.SeriesCollection}"
+                        XAxes="{Binding ChartVM.XAxes}"
+                        YAxes="{Binding ChartVM.YAxes}"
+                        ZoomMode="X"
+                        />
                 </Grid>
             </TabItem>
         </TabControl>

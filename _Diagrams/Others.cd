@@ -2,30 +2,58 @@
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="TrafficModeling.Model.Statistics">
     <Position X="2.75" Y="0.5" Width="2.25" />
+    <Members>
+      <Method Name="Statistics" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAEAAAAAJEBIAAAiBgAAAwIAIAABEAAAAAAAgAAAAAI=</HashCode>
+      <HashCode>AAAgAgABACACAARCCgAgAAIAgAMBAAAABAAABAAAAAA=</HashCode>
       <FileName>Model\Statistics.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="TrafficModeling.Model.Car">
     <Position X="8" Y="0.5" Width="1.5" />
+    <Members>
+      <Method Name="Car" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAAAAAIAAAAAAAAEAAAAEAQBACAAAAABAAAAAAgAAAA=</HashCode>
       <FileName>Model\Cars.Car.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TrafficModeling.Model.CivilCar" Collapsed="true">
-    <Position X="6.5" Y="4" Width="1.5" />
+    <Position X="7.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\Cars.CivilCar.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TrafficModeling.Model.GovCar" Collapsed="true">
-    <Position X="9.5" Y="4" Width="1.5" />
+    <Position X="8.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\Cars.GovCar.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficModeling.Model.CarGenerator">
+    <Position X="9.75" Y="0.5" Width="1.5" />
+    <Members>
+      <Field Name="bernoulli" Hidden="true" />
+      <Method Name="CarGenerator" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAQAAAEAAAgAEAAAAAAAAAAAAAEAAAEAQAAA=</HashCode>
+      <FileName>Model\CarGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficModeling.Model.Simulation">
+    <Position X="12" Y="1.25" Width="1.5" />
+    <Members>
+      <Method Name="Simulation" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAACAAQAAgAAAEAAAAAAAAAAEAAI=</HashCode>
+      <FileName>Model\Simulation.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

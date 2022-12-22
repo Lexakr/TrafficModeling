@@ -1,4 +1,4 @@
-﻿namespace TrafficModeling.Model
+namespace TrafficModeling.Model
 {
     /// <summary>
     /// Симуляция в Q-схеме - прибор, включающий в себя элементы Q-схемы.
@@ -14,6 +14,8 @@
         /// Обслуживающий поток. Включает 2 входных и 2 светофора
         /// </summary>
         private readonly ServeStream serveStream;
+
+        public ServeStream ServeStream { get => serveStream; }
 
         /// <summary>
         /// Статистика по симуляции

@@ -30,11 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="road.jpeg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewModel\" />
+    <Resource Include="View\road.jpeg" />
   </ItemGroup>
 
   <ItemGroup>

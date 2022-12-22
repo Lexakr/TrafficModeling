@@ -1,5 +1,7 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
@@ -8,94 +10,111 @@ namespace TrafficModeling.Model
     /// <summary>
     /// Статистика по завершенной симуляции.
     /// </summary>
-    class Statistics
+    [INotifyPropertyChanged]
+    internal partial class Statistics
     {
         /// <summary>
         /// Общее время симуляции
         /// </summary>
-        public int SimulationTime { get; set; }
+        [ObservableProperty]
+        private int totalSimulationTime;
 
         /// <summary>
         /// Всего машин обслужено
         /// </summary>
-        public int TotalCars { get; set; }
+        [ObservableProperty]
+        private int totalCars;
 
         /// <summary>
         /// Гражданских машин обслужено
         /// </summary>
-        public int TotalCivilCars { get; set; }
+        [ObservableProperty]
+        private int totalCivilCars;
 
         /// <summary>
         /// Машин спецслужб обслужено
         /// </summary>
-        public int TotalGovCars { get; set; }
+        [ObservableProperty]
+        private int totalGovCars;
 
         /// <summary>
         /// Машина, проехавшая участок быстрее всех
         /// </summary>
-        public int MaxTravelTime { get; set; }
+        [ObservableProperty]
+        private int maxTravelTime;
 
         /// <summary>
         /// Машина, проехавшая участок медленнее всех
         /// </summary>
-        public int MinTravelTime { get; set; }
+        [ObservableProperty]
+        private int minTravelTime;
 
         /// <summary>
         /// Наибольшее время ожидания в очереди (для обслуженных машин)
         /// </summary>
-        public int MaxWaitingTime { get; set; }
+        [ObservableProperty]
+        private int maxWaitingTime;
 
         /// <summary>
         /// Всего обслужено из 1 очереди
         /// </summary>
-        public int TotalCarsInStream1 { get; set; }
+        [ObservableProperty]
+        private int totalCarsInStream1;
 
         /// <summary>
         /// Всего обслужено из 2 очереди
         /// </summary>
-        public int TotalCarsInStream2 { get; set; }
+        [ObservableProperty]
+        private int totalCarsInStream2;
 
         /// <summary>
         /// Среднее время ожидания в 1 очереди
         /// </summary>
-        public int AvgWaitingTimeInStream1 { get; set; }
+        [ObservableProperty]
+        private int avgWaitingTimeInStream1;
 
         /// <summary>
         /// Среднее время ожидания в0 2 очереди
         /// </summary>
-        public int AvgWaitingTimeInStream2 { get; set; }
+        [ObservableProperty]
+        private int avgWaitingTimeInStream2;
 
         /// <summary>
         /// Среднее время проезда машин из 1 очереди
         /// </summary>
-        public int AvgServeTimeInStream1 { get; set; }
+        [ObservableProperty]
+        private int avgServeTimeInStream1;
 
         /// <summary>
         /// Среднее время проезда машин из 2 очереди
         /// </summary>
-        public int AvgServeTimeInStream2 { get; set; }
+        [ObservableProperty]
+        private int avgServeTimeInStream2;
 
         /// <summary>
         /// Динамика машин в 1 очереди
         /// </summary>
-        public List<int> CarsInQue1Dynamics { get; set; }
+        [ObservableProperty]
+        private List<int> carsInQue1Dynamics;
 
         /// <summary>
         /// Динамика машин во 2 очереди
         /// </summary>
-        public List<int> CarsInQue2Dynamics { get; set; }
+        [ObservableProperty]
+        private List<int> carsInQue2Dynamics;
 
         /// <summary>
         /// Количество необслуженных машин в очереди к концу симуляции.
         /// </summary>
-        public int CarsInQueue { get; set; }
+        [ObservableProperty]
+        private int carsInQueue;
 
         /// <summary>
         /// Конструктор по умолчанию задает все параметры нулями.
         /// </summary>
         public Statistics()
         {
-            SimulationTime = 0;
+            TotalSimulationTime = 0;
             TotalCars = 0;
             TotalCivilCars = 0;
             TotalGovCars = 0;
@@ -137,7 +156,7 @@ namespace TrafficModeling.Model
         /// <param name="simulationTime">Время симуляции</param>
         public void Process(List<Car> servedCars, int carsInQue, int simulationTime)
         {
-            SimulationTime = simulationTime;
+            TotalSimulationTime = simulationTime;
             TotalCars = servedCars.Count;
             TotalCivilCars = servedCars.Where(x => x is CivilCar).Count();
             TotalGovCars = servedCars.Where(x => x is GovCar).Count();

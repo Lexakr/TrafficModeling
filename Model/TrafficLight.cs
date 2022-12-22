@@ -54,12 +54,12 @@
 
             if (IsGreen)
             {
-                if (TimeCounter == LightTime) 
+                if (TimeCounter == LightTime)
                     SwitchSignal();
             }
             else
             {
-                if (TimeCounter == Delay) 
+                if (TimeCounter == Delay)
                     SwitchSignal();
             }
         }

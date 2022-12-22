@@ -13,7 +13,7 @@ namespace TrafficModeling.Model
         /// Первый входящий поток
         /// </summary>
         private readonly InputStream inputStream1;
-        
+
         /// <summary>
         /// Второй входящий поток
         /// </summary>
@@ -85,7 +85,7 @@ namespace TrafficModeling.Model
             ServedCars = new();
             addCounter = 0;
             // Время до первого добавления автомобиля в поток обслуживания
-            nextAddRequestTime = NextAddRequestTime(); 
+            nextAddRequestTime = NextAddRequestTime();
         }
 
         /// <summary>
@@ -134,14 +134,13 @@ namespace TrafficModeling.Model
             // Заявки добавляются только когда один из светофоров зеленый
             if (tLight1.IsGreen || tLight2.IsGreen)
             {
+                // Ситуация столкновения машин, двигающихся навстречу друг другу (параметры симуляции нужно изменить).
+                if ((tLight1.TimeCounter == 0 || tLight2.TimeCounter == 0) && serveQueue.Count > 0)
+                    throw new Exception("A collision has occurred! Try setting a longer traffic light delay.");
                 addCounter++;
 
                 if (addCounter == nextAddRequestTime)
                 {
-                    // Ситуация столкновения машин, двигающихся навстречу друг другу (параметры симуляции нужно изменить).
-                    if ((tLight1.TimeCounter == 0 || tLight2.TimeCounter == 0) && serveQueue.Count > 0)
-                        throw new Exception("A collision has occurred! Try setting a longer traffic light delay.");
-
                     nextAddRequestTime = NextAddRequestTime(); // новое время до генерации заявки
                     addCounter = 0;
 
