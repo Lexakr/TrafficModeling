@@ -86,6 +86,8 @@ namespace TrafficModeling.Model
 
             if (timeCounter == carGenTime)
             {
+                if (InputQue.Count == 2147483647)
+                    return;
                 var car = carGen.Generate(this.name, time);
 
                 // Машины спецслужь помещаются на первое место в очереди

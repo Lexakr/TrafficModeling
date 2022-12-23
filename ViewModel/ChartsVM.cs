@@ -3,19 +3,33 @@ using CommunityToolkit.Mvvm.Input;
 using LiveCharts.Helpers;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
+using SkiaSharp;
 using System.Collections.Generic;
 
 namespace TrafficModeling.View
 {
+    /// <summary>
+    /// Модель представления для графиков
+    /// </summary>
     [ObservableObject]
     public partial class ChartsVM
     {
+        /// <summary>
+        /// Коллекция графиков (график - массив значений(точек))
+        /// </summary>
         [ObservableProperty]
         public ISeries[] seriesCollection;
 
+        /// <summary>
+        /// Ось абсцисс
+        /// </summary>
         [ObservableProperty]
         public Axis[] xAxes;
 
+        /// <summary>
+        /// Ось ординат
+        /// </summary>
         [ObservableProperty]
         public Axis[] yAxes;
 
@@ -24,6 +38,11 @@ namespace TrafficModeling.View
 
         }
 
+        /// <summary>
+        /// Инициализирует коллекцию графиков по заданным массивам точек
+        /// </summary>
+        /// <param name="points1">Первый массив точек</param>
+        /// <param name="points2">Второй массив точек</param>
         public void CreateChart(List<int> points1, List<int> points2)
         {
             SeriesCollection = new ISeries[]
@@ -35,6 +54,8 @@ namespace TrafficModeling.View
                     Fill = null,
                     Values = points1.AsChartValues(),
                     LineSmoothness = 0.2,
+                    Stroke = new SolidColorPaint(SKColors.YellowGreen, 1.5f),
+                    GeometryStroke = new SolidColorPaint(SKColors.YellowGreen, 1.5f)
                 },
                 new LineSeries<int>
                 {
@@ -43,6 +64,8 @@ namespace TrafficModeling.View
                     Fill = null,
                     Values = points2.AsChartValues(),
                     LineSmoothness = 0.2,
+                    Stroke = new SolidColorPaint(SKColors.Blue, 1.5f),
+                    GeometryStroke = new SolidColorPaint(SKColors.Blue, 1.5f)
                 }
             };
 

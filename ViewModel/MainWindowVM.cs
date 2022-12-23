@@ -9,6 +9,9 @@ using TrafficModeling.View;
 
 namespace TrafficModeling.ViewModel
 {
+    /// <summary>
+    /// Главная модель представления
+    /// </summary>
     internal partial class MainWindowVM : ObservableValidator
     {
         [ObservableProperty]
@@ -26,7 +29,7 @@ namespace TrafficModeling.ViewModel
         [ObservableProperty]
         [NotifyDataErrorInfo]
         [Required]
-        [Range(0.1, 10)]
+        [Range(0.1, 5)]
         private double civilCarSpeedDeviance;
 
         [ObservableProperty]
@@ -38,7 +41,7 @@ namespace TrafficModeling.ViewModel
         [ObservableProperty]
         [NotifyDataErrorInfo]
         [Required]
-        [Range(0.1, 10)]
+        [Range(0.1, 5)]
         private double govermentCarSpeedDeviance;
 
         [ObservableProperty]
@@ -50,7 +53,7 @@ namespace TrafficModeling.ViewModel
         [ObservableProperty]
         [NotifyDataErrorInfo]
         [Required]
-        [Range(0.1, 10)]
+        [Range(0.1, 5)]
         private double inputStream1Dispersion;
 
         [ObservableProperty]
@@ -62,19 +65,19 @@ namespace TrafficModeling.ViewModel
         [ObservableProperty]
         [NotifyDataErrorInfo]
         [Required]
-        [Range(0.1, 10)]
+        [Range(0.1, 5)]
         private double inputStream2Dispersion;
 
         [ObservableProperty]
         [NotifyDataErrorInfo]
         [Required]
-        [Range(5, 600)]
+        [Range(5, 1800)]
         private int trafficLightTime;
 
         [ObservableProperty]
         [NotifyDataErrorInfo]
         [Required]
-        [Range(5, 600)]
+        [Range(5, 1800)]
         private int trafficLightDelay;
 
         [ObservableProperty]
@@ -86,7 +89,7 @@ namespace TrafficModeling.ViewModel
         [ObservableProperty]
         [NotifyDataErrorInfo]
         [Required]
-        [Range(1, 72)]
+        [Range(1, 24)]
         private int simulationTime;
 
         public MainWindowVM()
@@ -94,7 +97,7 @@ namespace TrafficModeling.ViewModel
             Simulat = new();
             chartVM = new();
 
-            // Инициализация 
+            // Инициализация сохраненных параметров
             CivilCarSpeed = Settings.Default.CivilCarSpeed;
             CivilCarSpeedDeviance = Settings.Default.CivilCarSpeedDeviance;
             GovermentCarSpeed = Settings.Default.GovermentCarSpeed;
@@ -111,7 +114,9 @@ namespace TrafficModeling.ViewModel
             RoadLength = Settings.Default.RoadLength;
         }
 
-        // Команда старт
+        /// <summary>
+        /// Команда старт - начать симуляцию.
+        /// </summary>
         [RelayCommand]
         private void Start()
         {
@@ -124,6 +129,7 @@ namespace TrafficModeling.ViewModel
                 return;
             }
 
+            // Сохраняем настройки симуляции
             SaveSettings();
 
             Simulat = new(simulationTime * 36000, inputStream1ExpValue, inputStream1Dispersion, inputStream2ExpValue, inputStream2Dispersion, trafficLightTime,
@@ -138,6 +144,7 @@ namespace TrafficModeling.ViewModel
                 return;
             }
 
+            // Строит графики по данным статистики симуляции
             chartVM.CreateChart(Simulat.SimStats.CarsInQue1Dynamics, Simulat.SimStats.CarsInQue2Dynamics);
 
         }

@@ -16,20 +16,50 @@ namespace TrafficModeling
         /// <returns></returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if ((int)value < 600)
+            var _type = value.GetType();
+
+            // Для целых
+            if (_type == typeof(int))
             {
-                return Math.Round(((int)value / 10.0), 2).ToString() + "s";
+                // секунды
+                if ((int)value < 600)
+                {
+                    return Math.Round(((int)value / 10.0), 2).ToString() + "s";
+                }
+                // минуты
+                else if ((int)value < 36000)
+                {
+                    return Math.Round(((int)value / 600.0), 2).ToString() + "m";
+                }
+                // часы
+                else
+                {
+                    return Math.Round(((int)value / 36000.0), 2).ToString() + "h";
+                }
             }
-            else if ((int)value < 36000)
+            // Для целых длинных
+            if (_type == typeof(long))
             {
-                return Math.Round(((int)value / 600.0), 2).ToString() + "m";
+                if ((long)value < 600)
+                {
+                    return Math.Round(((long)value / 10.0), 2).ToString() + "s";
+                }
+                else if ((long)value < 36000)
+                {
+                    return Math.Round(((long)value / 600.0), 2).ToString() + "m";
+                }
+                else
+                {
+                    return Math.Round(((long)value / 36000.0), 2).ToString() + "h";
+                }
             }
             else
             {
-                return Math.Round(((int)value / 36000.0), 2).ToString() + "h";
+                throw new NotImplementedException();
             }
         }
 
+        // Заглушка для реализации интерфейса, конвертировать обратно нет задачи
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
             => throw new NotImplementedException();
 

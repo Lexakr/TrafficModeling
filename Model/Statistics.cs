@@ -71,25 +71,25 @@ namespace TrafficModeling.Model
         /// Среднее время ожидания в 1 очереди
         /// </summary>
         [ObservableProperty]
-        private int avgWaitingTimeInStream1;
+        private long avgWaitingTimeInStream1;
 
         /// <summary>
         /// Среднее время ожидания в0 2 очереди
         /// </summary>
         [ObservableProperty]
-        private int avgWaitingTimeInStream2;
+        private long avgWaitingTimeInStream2;
 
         /// <summary>
         /// Среднее время проезда машин из 1 очереди
         /// </summary>
         [ObservableProperty]
-        private int avgServeTimeInStream1;
+        private long avgServeTimeInStream1;
 
         /// <summary>
         /// Среднее время проезда машин из 2 очереди
         /// </summary>
         [ObservableProperty]
-        private int avgServeTimeInStream2;
+        private long avgServeTimeInStream2;
 
         /// <summary>
         /// Динамика машин в 1 очереди
@@ -165,10 +165,10 @@ namespace TrafficModeling.Model
             MaxWaitingTime = servedCars.Max(x => x.WaitingTime);
             TotalCarsInStream1 = servedCars.Where(x => x.Origin == "Input Stream 1").Count();
             TotalCarsInStream2 = servedCars.Where(x => x.Origin == "Input Stream 2").Count();
-            AvgWaitingTimeInStream1 = servedCars.Where(x => x.Origin == "Input Stream 1").Sum(x => x.WaitingTime) / TotalCarsInStream1;
-            AvgWaitingTimeInStream2 = servedCars.Where(x => x.Origin == "Input Stream 2").Sum(x => x.WaitingTime) / TotalCarsInStream2;
-            AvgServeTimeInStream1 = servedCars.Where(x => x.Origin == "Input Stream 1").Sum(x => x.TravelTime) / TotalCarsInStream1;
-            AvgServeTimeInStream2 = servedCars.Where(x => x.Origin == "Input Stream 2").Sum(x => x.TravelTime) / TotalCarsInStream2;
+            AvgWaitingTimeInStream1 = (long)servedCars.Where(x => x.Origin == "Input Stream 1").Sum(x => (long)x.WaitingTime) / TotalCarsInStream1;
+            AvgWaitingTimeInStream2 = servedCars.Where(x => x.Origin == "Input Stream 2").Sum(x => (long)x.WaitingTime) / TotalCarsInStream2;
+            AvgServeTimeInStream1 = servedCars.Where(x => x.Origin == "Input Stream 1").Sum(x => (long)x.TravelTime) / TotalCarsInStream1;
+            AvgServeTimeInStream2 = servedCars.Where(x => x.Origin == "Input Stream 2").Sum(x => (long)x.TravelTime) / TotalCarsInStream2;
 
             CarsInQueue = carsInQue;
         }
