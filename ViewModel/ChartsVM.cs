@@ -89,13 +89,15 @@ namespace TrafficModeling.View
         [RelayCommand]
         public void ToggleSeries0()
         {
-            SeriesCollection[0].IsVisible = !SeriesCollection[0].IsVisible;
+            if (SeriesCollection != null && SeriesCollection[0] != null)
+                SeriesCollection[0].IsVisible = !SeriesCollection[0].IsVisible;
         }
 
         [RelayCommand]
         public void ToggleSeries1()
         {
-            SeriesCollection[1].IsVisible = !SeriesCollection[1].IsVisible;
+            if (SeriesCollection != null && SeriesCollection[1] != null)
+                SeriesCollection[1].IsVisible = !SeriesCollection[1].IsVisible;
         }
     }
 }
