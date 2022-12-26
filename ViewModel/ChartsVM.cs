@@ -49,7 +49,7 @@ namespace TrafficModeling.View
             {
                 new LineSeries<int>
                 {
-                    Name = "Queue 1 cars",
+                    Name = "Машины в 1 очереди",
                     GeometrySize = 0,
                     Fill = null,
                     Values = points1.AsChartValues(),
@@ -59,7 +59,7 @@ namespace TrafficModeling.View
                 },
                 new LineSeries<int>
                 {
-                    Name = "Queue 2 cars",
+                    Name = "Машины во 2 очереди",
                     GeometrySize = 0,
                     Fill = null,
                     Values = points2.AsChartValues(),
@@ -73,7 +73,7 @@ namespace TrafficModeling.View
             {
                 new Axis
                 {
-                    Name = "Time in minuts",
+                    Name = "Время в минутах",
                 }
             };
 
@@ -81,7 +81,7 @@ namespace TrafficModeling.View
             {
                 new Axis
                 {
-                    Name = "Cars",
+                    Name = "Машины",
                 }
             };
         }

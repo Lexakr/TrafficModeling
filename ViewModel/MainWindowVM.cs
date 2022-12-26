@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using System.Windows;
 using TrafficModeling.Model;
 using TrafficModeling.Properties;
@@ -18,79 +19,89 @@ namespace TrafficModeling.ViewModel
         private ChartsVM chartVM;
 
         [ObservableProperty]
-        public Simulation simulat;
+        private Simulation simulat;
 
         [ObservableProperty]
         [NotifyDataErrorInfo]
         [Required]
-        [Range(40, 90)]
-        private int civilCarSpeed;
+        [Range(40, 120)]
+        private string civilCarSpeed;
 
         [ObservableProperty]
         [NotifyDataErrorInfo]
         [Required]
-        [Range(0.1, 5)]
-        private double civilCarSpeedDeviance;
+        [Range(0.1, 9.0)]
+        [RegularExpression(@"^[0-9,]+$", ErrorMessage = "Десятичные дроби должны быть в формате 0,1")]
+        private string civilCarSpeedDeviance;
 
         [ObservableProperty]
         [NotifyDataErrorInfo]
         [Required]
-        [Range(60, 100)]
-        private int govermentCarSpeed;
+        [Range(40, 120)]
+        [RegularExpression(@"^[0-9,]+$", ErrorMessage = "Десятичные дроби должны быть в формате 0,1")]
+        private string govermentCarSpeed;
 
         [ObservableProperty]
         [NotifyDataErrorInfo]
         [Required]
-        [Range(0.1, 5)]
-        private double govermentCarSpeedDeviance;
+        [Range(0.1, 9.0)]
+        [RegularExpression(@"^[0-9,]+$", ErrorMessage = "Десятичные дроби должны быть в формате 0,1")]
+        private string govermentCarSpeedDeviance;
 
         [ObservableProperty]
         [NotifyDataErrorInfo]
         [Required]
-        [Range(2, 60)]
-        private double inputStream1ExpValue;
+        [Range(2.0, 60.0)]
+        [RegularExpression(@"^[0-9,]+$", ErrorMessage = "Десятичные дроби должны быть в формате 0,1")]
+        private string inputStream1ExpValue;
 
         [ObservableProperty]
         [NotifyDataErrorInfo]
         [Required]
-        [Range(0.1, 5)]
-        private double inputStream1Dispersion;
+        [Range(0.1, 9.0)]
+        [RegularExpression(@"^[0-9,]+$", ErrorMessage = "Десятичные дроби должны быть в формате 0,1")]
+        private string inputStream1Dispersion;
 
         [ObservableProperty]
         [NotifyDataErrorInfo]
         [Required]
-        [Range(2, 60)]
-        private double inputStream2ExpValue;
+        [Range(2.0, 60.0)]
+        [RegularExpression(@"^[0-9,]+$", ErrorMessage = "Десятичные дроби должны быть в формате 0,1")]
+        private string inputStream2ExpValue;
 
         [ObservableProperty]
         [NotifyDataErrorInfo]
         [Required]
-        [Range(0.1, 5)]
-        private double inputStream2Dispersion;
+        [Range(0.1, 9.0)]
+        [RegularExpression(@"^[0-9,]+$", ErrorMessage = "Десятичные дроби должны быть в формате 0,1")]
+        private string inputStream2Dispersion;
 
         [ObservableProperty]
         [NotifyDataErrorInfo]
         [Required]
         [Range(5, 1800)]
-        private int trafficLightTime;
+        private string trafficLightTime;
 
         [ObservableProperty]
         [NotifyDataErrorInfo]
         [Required]
         [Range(5, 1800)]
-        private int trafficLightDelay;
+        private string trafficLightDelay;
 
         [ObservableProperty]
         [NotifyDataErrorInfo]
         [Required]
         [Range(100, 5000)]
-        private int roadLength;
+        private string roadLength;
 
         [ObservableProperty]
         [NotifyDataErrorInfo]
         [Required]
         [Range(1, 24)]
-        private int simulationTime;
+        private string simulationTime;
+
+        [ObservableProperty]
+        private bool isWindowEnabled = true;
 
         public MainWindowVM()
         {
@@ -118,35 +129,44 @@ namespace TrafficModeling.ViewModel
         /// Команда старт - начать симуляцию.
         /// </summary>
         [RelayCommand]
-        private void Start()
+        private async void Start()
         {
             // Валидация всех текстБоксов
             ValidateAllProperties();
 
             if (HasErrors)
             {
-                MessageBox.Show("Enter correct simulation parameters!", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Введите корректные параметры симуляции!", "Ошибка Ввода", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+
+            IsWindowEnabled = false;
 
             // Сохраняем настройки симуляции
             SaveSettings();
 
-            Simulat = new(simulationTime * 36000, inputStream1ExpValue, inputStream1Dispersion, inputStream2ExpValue, inputStream2Dispersion, trafficLightTime,
-                trafficLightDelay, roadLength, civilCarSpeed, civilCarSpeedDeviance, govermentCarSpeed, govermentCarSpeedDeviance);
-            try
+            Simulat = new(Int32.Parse(simulationTime) * 36000, Double.Parse(inputStream1ExpValue), Double.Parse(inputStream1Dispersion),
+                Double.Parse(inputStream2ExpValue), Double.Parse(inputStream2Dispersion), Int32.Parse(trafficLightTime),
+                Int32.Parse(trafficLightDelay), Int32.Parse(roadLength), Double.Parse(civilCarSpeed), Double.Parse(civilCarSpeedDeviance),
+                Double.Parse(govermentCarSpeed), Double.Parse(govermentCarSpeedDeviance));
+
+            await Task.Run(() =>
             {
-                Simulat.Run();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Simulation Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
+                try
+                {
+                    Simulat.Run();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка Симуляции", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+            });
 
             // Строит графики по данным статистики симуляции
             chartVM.CreateChart(Simulat.SimStats.CarsInQue1Dynamics, Simulat.SimStats.CarsInQue2Dynamics);
 
+            IsWindowEnabled = true;
         }
 
         /// <summary>

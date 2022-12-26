@@ -24,17 +24,17 @@ namespace TrafficModeling
                 // секунды
                 if ((int)value < 600)
                 {
-                    return Math.Round(((int)value / 10.0), 2).ToString() + "s";
+                    return Math.Round(((int)value / 10.0), 2).ToString() + "с";
                 }
                 // минуты
                 else if ((int)value < 36000)
                 {
-                    return Math.Round(((int)value / 600.0), 2).ToString() + "m";
+                    return Math.Round(((int)value / 600.0), 2).ToString() + "м";
                 }
                 // часы
                 else
                 {
-                    return Math.Round(((int)value / 36000.0), 2).ToString() + "h";
+                    return Math.Round(((int)value / 36000.0), 2).ToString() + "ч";
                 }
             }
             // Для целых длинных
@@ -42,15 +42,15 @@ namespace TrafficModeling
             {
                 if ((long)value < 600)
                 {
-                    return Math.Round(((long)value / 10.0), 2).ToString() + "s";
+                    return Math.Round(((long)value / 10.0), 2).ToString() + "с";
                 }
                 else if ((long)value < 36000)
                 {
-                    return Math.Round(((long)value / 600.0), 2).ToString() + "m";
+                    return Math.Round(((long)value / 600.0), 2).ToString() + "м";
                 }
                 else
                 {
-                    return Math.Round(((long)value / 36000.0), 2).ToString() + "h";
+                    return Math.Round(((long)value / 36000.0), 2).ToString() + "ч";
                 }
             }
             else

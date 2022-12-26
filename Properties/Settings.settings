@@ -2,40 +2,40 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TrafficModeling.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="CivilCarSpeed" Type="System.Int32" Scope="User">
+    <Setting Name="CivilCarSpeed" Type="System.String" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="CivilCarSpeedDeviance" Type="System.Double" Scope="User">
+    <Setting Name="CivilCarSpeedDeviance" Type="System.String" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="GovermentCarSpeed" Type="System.Int32" Scope="User">
+    <Setting Name="GovermentCarSpeed" Type="System.String" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="GovermentCarSpeedDeviance" Type="System.Double" Scope="User">
+    <Setting Name="GovermentCarSpeedDeviance" Type="System.String" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="InputStream1ExpValue" Type="System.Double" Scope="User">
+    <Setting Name="InputStream1ExpValue" Type="System.String" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="InputStream1Dispersion" Type="System.Double" Scope="User">
+    <Setting Name="InputStream1Dispersion" Type="System.String" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="InputStream2ExpValue" Type="System.Double" Scope="User">
+    <Setting Name="InputStream2ExpValue" Type="System.String" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="InputStream2Dispersion" Type="System.Double" Scope="User">
+    <Setting Name="InputStream2Dispersion" Type="System.String" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="TrafficLightTime" Type="System.Int32" Scope="User">
+    <Setting Name="TrafficLightTime" Type="System.String" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="TrafficLightDelay" Type="System.Int32" Scope="User">
+    <Setting Name="TrafficLightDelay" Type="System.String" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="SimulationTime" Type="System.Int32" Scope="User">
+    <Setting Name="SimulationTime" Type="System.String" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="RoadLength" Type="System.Int32" Scope="User">
+    <Setting Name="RoadLength" Type="System.String" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>

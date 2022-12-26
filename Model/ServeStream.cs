@@ -136,7 +136,7 @@ namespace TrafficModeling.Model
             {
                 // Ситуация столкновения машин, двигающихся навстречу друг другу (параметры симуляции нужно изменить).
                 if ((tLight1.TimeCounter == 0 || tLight2.TimeCounter == 0) && serveQueue.Count > 0)
-                    throw new Exception("A collision has occurred! Try setting a longer traffic light delay.");
+                    throw new Exception("Возникло столкновение! Увеличьте красную фазу светофора, среднюю скорость машин в потоке или ее дисперсию.");
                 addCounter++;
 
                 if (addCounter == nextAddRequestTime)
