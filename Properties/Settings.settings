@@ -2,16 +2,10 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TrafficModeling.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="CivilCarSpeed" Type="System.String" Scope="User">
+    <Setting Name="CarSpeed" Type="System.String" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="CivilCarSpeedDeviance" Type="System.String" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="GovermentCarSpeed" Type="System.String" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="GovermentCarSpeedDeviance" Type="System.String" Scope="User">
+    <Setting Name="CarSpeedDeviance" Type="System.String" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="InputStream1ExpValue" Type="System.String" Scope="User">

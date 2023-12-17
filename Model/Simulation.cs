@@ -43,19 +43,17 @@ namespace TrafficModeling.Model
         /// <param name="lightTime">Длительность зеленой фазы светофора</param>
         /// <param name="delayTime">Длительность красной фазы светофора</param>
         /// <param name="roadLength">Длина участка симуляции</param>
-        /// <param name="civilExpValue">Средняя скорость обычных машин</param>
-        /// <param name="civilDispersion">Дисперсия скорости обычных машин</param>
-        /// <param name="govExpValue">Средняя скорость машин спецслужб</param>
-        /// <param name="govDispersion">Дисперсия скорости машин спецслужб</param>
+        /// <param name="carSpeedExpValue">Средняя скорость обычных машин</param>
+        /// <param name="carSpeedDispersion">Дисперсия скорости обычных машин</param>
         public Simulation(int simulationTime = 0, double inputStream1ExpValue = 0, double inputStream1Dispersion = 0, double inputStream2ExpValue = 0,
-            double inputStream2Dispersion = 0, int lightTime = 0, int delayTime = 0, int roadLength = 0, double civilExpValue = 0,
-            double civilDispersion = 0, double govExpValue = 0, double govDispersion = 0)
+            double inputStream2Dispersion = 0, int lightTime = 0, int delayTime = 0, int roadLength = 0, double carSpeedExpValue = 0,
+            double carSpeedDispersion = 0)
         {
             SimulationTime = simulationTime;
             timer = new();
             serveStream = new(
-                new InputStream(new CarGenerator(civilExpValue, civilDispersion, govExpValue, govDispersion), inputStream1ExpValue, inputStream1Dispersion, "Input Stream 1"),
-                new InputStream(new CarGenerator(civilExpValue, civilDispersion, govExpValue, govDispersion), inputStream2ExpValue, inputStream2Dispersion, "Input Stream 2"),
+                new InputStream(new CarGenerator(carSpeedExpValue, carSpeedDispersion), inputStream1ExpValue, inputStream1Dispersion, "Input Stream 1"),
+                new InputStream(new CarGenerator(carSpeedExpValue, carSpeedDispersion), inputStream2ExpValue, inputStream2Dispersion, "Input Stream 2"),
                 lightTime, delayTime, roadLength);
             SimStats = new();
 

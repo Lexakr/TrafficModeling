@@ -1,39 +1,25 @@
-﻿using MathNet.Numerics.Distributions;
-
-namespace TrafficModeling.Model
+﻿namespace TrafficModeling.Model
 {
     /// <summary>
-    /// Класс, генерирующий объекты Car с вероятностью для двух подтипов.
+    /// Класс, генерирующий объекты Car.
     /// </summary>
     internal class CarGenerator
     {
-        private static Bernoulli bernoulli = new(0.99); // 1% шанс появления машины спецслужб
-        private static int civCarCounter = 0;
-        private static int govCarCounter = 0;
+        private static int carCounter = 0;
 
         /// <summary>
-        /// Мат ожидание скорости для Civil Cars.
+        /// Мат ожидание скорости для Cars.
         /// </summary>
-        public double CivilExpValue { get; set; }
+        public double CarSpeedExpValue { get; set; }
         /// <summary>
-        /// Дисперсия скорости для Civil Cars.
+        /// Дисперсия скорости для Cars.
         /// </summary>
-        public double CivilDispersion { get; set; }
-        /// <summary>
-        /// Мат ожидание скорости для Goverment Cars.
-        /// </summary>
-        public double GovExpValue { get; set; }
-        /// <summary>
-        /// Дисперсия скорости для Goverment Cars.
-        /// </summary>
-        public double GovDispersion { get; set; }
+        public double CarSpeedDispersion { get; set; }
 
-        public CarGenerator(double civilExpValue, double civilDispersion, double govExpValue, double govDispersion)
+        public CarGenerator(double carSpeedExpValue, double carSpeedDispersion)
         {
-            CivilExpValue = civilExpValue;
-            CivilDispersion = civilDispersion;
-            GovExpValue = govExpValue;
-            GovDispersion = govDispersion;
+            CarSpeedExpValue = carSpeedExpValue;
+            CarSpeedDispersion = carSpeedDispersion;
         }
 
         /// <summary>
@@ -44,19 +30,8 @@ namespace TrafficModeling.Model
         /// <returns></returns>
         public Car Generate(string origin, int time)
         {
-            // Удача или неудача случайного эксперимента
-            int result = bernoulli.Sample();
-
-            if (result == 1)
-            {
-                civCarCounter++;
-                return new CivilCar("Civil_Car_" + civCarCounter, (int)Randoms.GetNormalNum(CivilExpValue, CivilDispersion), origin, time);
-            }
-            else
-            {
-                govCarCounter++;
-                return new GovCar("Goverment_Car_" + govCarCounter, (int)Randoms.GetNormalNum(GovExpValue, GovDispersion), origin, time);
-            }
+            carCounter++;
+            return new Car("Car_" + carCounter, (int)Randoms.GetNormalNum(CarSpeedExpValue, CarSpeedDispersion), origin, time);
         }
     }
 }

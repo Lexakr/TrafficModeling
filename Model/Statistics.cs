@@ -26,18 +26,6 @@ namespace TrafficModeling.Model
         private int totalCars;
 
         /// <summary>
-        /// Гражданских машин обслужено
-        /// </summary>
-        [ObservableProperty]
-        private int totalCivilCars;
-
-        /// <summary>
-        /// Машин спецслужб обслужено
-        /// </summary>
-        [ObservableProperty]
-        private int totalGovCars;
-
-        /// <summary>
         /// Машина, проехавшая участок быстрее всех
         /// </summary>
         [ObservableProperty]
@@ -116,8 +104,6 @@ namespace TrafficModeling.Model
         {
             TotalSimulationTime = 0;
             TotalCars = 0;
-            TotalCivilCars = 0;
-            TotalGovCars = 0;
             MinTravelTime = 0;
             MaxTravelTime = 0;
             MaxWaitingTime = 0;
@@ -158,8 +144,6 @@ namespace TrafficModeling.Model
         {
             TotalSimulationTime = simulationTime;
             TotalCars = servedCars.Count;
-            TotalCivilCars = servedCars.Where(x => x is CivilCar).Count();
-            TotalGovCars = servedCars.Where(x => x is GovCar).Count();
             MaxTravelTime = servedCars.Max(x => x.TravelTime);
             MinTravelTime = servedCars.Min(x => x.TravelTime);
             MaxWaitingTime = servedCars.Max(x => x.WaitingTime);

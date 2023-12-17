@@ -12,7 +12,7 @@ namespace TrafficModeling.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.4.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.7.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -26,48 +26,24 @@ namespace TrafficModeling.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public string CivilCarSpeed {
+        public string CarSpeed {
             get {
-                return ((string)(this["CivilCarSpeed"]));
+                return ((string)(this["CarSpeed"]));
             }
             set {
-                this["CivilCarSpeed"] = value;
+                this["CarSpeed"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public string CivilCarSpeedDeviance {
+        public string CarSpeedDeviance {
             get {
-                return ((string)(this["CivilCarSpeedDeviance"]));
+                return ((string)(this["CarSpeedDeviance"]));
             }
             set {
-                this["CivilCarSpeedDeviance"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public string GovermentCarSpeed {
-            get {
-                return ((string)(this["GovermentCarSpeed"]));
-            }
-            set {
-                this["GovermentCarSpeed"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public string GovermentCarSpeedDeviance {
-            get {
-                return ((string)(this["GovermentCarSpeedDeviance"]));
-            }
-            set {
-                this["GovermentCarSpeedDeviance"] = value;
+                this["CarSpeedDeviance"] = value;
             }
         }
         

@@ -25,28 +25,14 @@ namespace TrafficModeling.ViewModel
         [NotifyDataErrorInfo]
         [Required]
         [Range(40, 120)]
-        private string civilCarSpeed;
+        private string carSpeed;
 
         [ObservableProperty]
         [NotifyDataErrorInfo]
         [Required]
         [Range(0.1, 9.0)]
         [RegularExpression(@"^[0-9,]+$", ErrorMessage = "Десятичные дроби должны быть в формате 0,1")]
-        private string civilCarSpeedDeviance;
-
-        [ObservableProperty]
-        [NotifyDataErrorInfo]
-        [Required]
-        [Range(40, 120)]
-        [RegularExpression(@"^[0-9,]+$", ErrorMessage = "Десятичные дроби должны быть в формате 0,1")]
-        private string govermentCarSpeed;
-
-        [ObservableProperty]
-        [NotifyDataErrorInfo]
-        [Required]
-        [Range(0.1, 9.0)]
-        [RegularExpression(@"^[0-9,]+$", ErrorMessage = "Десятичные дроби должны быть в формате 0,1")]
-        private string govermentCarSpeedDeviance;
+        private string carSpeedDeviance;
 
         [ObservableProperty]
         [NotifyDataErrorInfo]
@@ -109,10 +95,8 @@ namespace TrafficModeling.ViewModel
             chartVM = new();
 
             // Инициализация сохраненных параметров
-            CivilCarSpeed = Settings.Default.CivilCarSpeed;
-            CivilCarSpeedDeviance = Settings.Default.CivilCarSpeedDeviance;
-            GovermentCarSpeed = Settings.Default.GovermentCarSpeed;
-            GovermentCarSpeedDeviance = Settings.Default.GovermentCarSpeedDeviance;
+            carSpeed = Settings.Default.CarSpeed;
+            carSpeedDeviance = Settings.Default.CarSpeedDeviance;
 
             InputStream1ExpValue = Settings.Default.InputStream1ExpValue;
             InputStream1Dispersion = Settings.Default.InputStream1Dispersion;
@@ -147,8 +131,7 @@ namespace TrafficModeling.ViewModel
 
             Simulat = new(Int32.Parse(simulationTime) * 36000, Double.Parse(inputStream1ExpValue), Double.Parse(inputStream1Dispersion),
                 Double.Parse(inputStream2ExpValue), Double.Parse(inputStream2Dispersion), Int32.Parse(trafficLightTime),
-                Int32.Parse(trafficLightDelay), Int32.Parse(roadLength), Double.Parse(civilCarSpeed), Double.Parse(civilCarSpeedDeviance),
-                Double.Parse(govermentCarSpeed), Double.Parse(govermentCarSpeedDeviance));
+                Int32.Parse(trafficLightDelay), Int32.Parse(roadLength), Double.Parse(carSpeed), Double.Parse(carSpeedDeviance));
 
             await Task.Run(() =>
             {
@@ -174,10 +157,8 @@ namespace TrafficModeling.ViewModel
         /// </summary>
         private void SaveSettings()
         {
-            Settings.Default.CivilCarSpeed = CivilCarSpeed;
-            Settings.Default.CivilCarSpeedDeviance = CivilCarSpeedDeviance;
-            Settings.Default.GovermentCarSpeed = GovermentCarSpeed;
-            Settings.Default.GovermentCarSpeedDeviance = GovermentCarSpeedDeviance;
+            Settings.Default.CarSpeed = CarSpeed;
+            Settings.Default.CarSpeedDeviance = CarSpeedDeviance;
             Settings.Default.InputStream1ExpValue = InputStream1ExpValue;
             Settings.Default.InputStream1Dispersion = InputStream1Dispersion;
             Settings.Default.InputStream2ExpValue = InputStream2ExpValue;

@@ -3,7 +3,7 @@
     /// <summary>
     /// Машина, передвигающаяся по дороге. В Q-схеме представляет собой заявку.
     /// </summary>
-    internal abstract class Car
+    internal class Car
     {
         /// <summary>
         /// Уникальное имя
@@ -39,11 +39,6 @@
         /// Время симуляции, когда экземпляр прибыл в очередь входного потока. Используется для вычисления времени простоя в очереди
         /// </summary>
         public int ArrivalTime { get; set; }
-
-        /// <summary>
-        /// Приоритет проезда входной очереди. False для обычных и true для спецслужб
-        /// </summary>
-        public bool Priority { get; set; }
 
         public Car(string name, int speed, string origin, int arrivalTime)
         {

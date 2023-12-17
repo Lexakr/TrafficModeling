@@ -184,7 +184,7 @@ namespace TrafficModeling.Model
         /// Время в тиках до следующего события. Нормальное распределение с expValue = 1.8, dispersion = 0.3
         /// </summary>
         /// <returns></returns>
-        public int NextAddRequestTime()
+        public static int NextAddRequestTime()
         {
             var result = (int)(Randoms.GetNormalNum(1.8, 0.3) * 10);
 

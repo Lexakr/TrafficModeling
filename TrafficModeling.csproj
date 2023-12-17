@@ -31,10 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="View\road.jpeg" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

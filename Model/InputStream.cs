@@ -90,11 +90,7 @@ namespace TrafficModeling.Model
                     return;
                 var car = carGen.Generate(this.name, time);
 
-                // Машины спецслужь помещаются на первое место в очереди
-                if (car.Priority)
-                    InputQue.Insert(0, car);
-                else
-                    InputQue.Add(car);
+                InputQue.Add(car);
 
                 timeCounter = 0;
                 // время до следующей генерации
